@@ -1,0 +1,42 @@
+.Button {
+    padding: 10px 50px;
+    margin: 10px;
+    border-radius: 20px;
+    border-color: #7fffd4;
+    color: black;
+}
+
+.ButtonSelected {
+    padding: 10px 50px;
+    margin: 10px;
+    border-radius: 20px;
+    border-color: #7fffd4;
+    background-color: #7fffd4;
+    color: black;
+}
+
+.PlayerButton {
+    max-width: 200px;
+    max-height: 50px;
+    text-overflow: ellipsis;
+    color: black;
+}
+
+.ActionButton {
+    padding: 10px 50px;
+    margin: 10px;
+    border-radius: 20px;
+    border-color: #7fffd4;
+    width: 75%;
+    color: black;
+}
+
+.CurrentPlayerButton {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 20px;
+    border-color: #7fffd4;
+    width: 135px;
+    color: black;
+
+}
