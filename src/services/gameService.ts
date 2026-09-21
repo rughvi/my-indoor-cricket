@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Game } from '../types/game';
 import { CurrentGame } from '../types/currentGame';
-import { doc, getDoc } from 'firebase/firestore/lite';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 
 const currentGameCollection = 'currentGame';

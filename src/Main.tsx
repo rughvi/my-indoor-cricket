@@ -27,7 +27,6 @@ const Main = () => {
     useEffect(() => {
         if(user) {
             dispatch(fetchCurrentGame(''));
-            // navigate('/new-or-resume-game')
         } else {
             console.log('user not present');
         }
