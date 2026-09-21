@@ -8,7 +8,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentGame } from "./services/gameService";
 import { IRootDispatch, IRootState } from "./store/store";
-// import { CurrentGame } from "./Models/CurrentGame";
 import { Status } from "./enums/status";
 import { CurrentGame } from "./types/currentGame";
 

@@ -1,10 +1,13 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-import { Game } from "../types/game";
+import { EmptyGame, Game } from "../types/game";
+import { Teams } from "../enums/teams";
+import { InningsStatus } from "../enums/inningsStatus";
 
 export type GameContextType = {
   gameId: string;
+  game: Game;
   loading: boolean;
   error: Error | null;
 };
@@ -19,7 +22,13 @@ type GameProviderProps = {
 const gamesCollection = 'games';
 
 export function GameProvider ({children, gameId}: GameProviderProps) {
-  const [game, setGame] = useState<Game>({});
+  const [game, setGame] = useState<Game>({
+    team1: [],
+    team2: [],
+    teamBattingFirst: Teams.One,
+    innings1: {status: InningsStatus.NotStarted, score: [] },
+    innings2: {status: InningsStatus.NotStarted, score: [] },
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -29,14 +38,21 @@ export function GameProvider ({children, gameId}: GameProviderProps) {
     const unsubscribe = onSnapshot(
       gameRef,
       (snapshot) => {
+        if (!snapshot.exists()) {
+          setGame(EmptyGame);
+          setLoading(false);
+          return;
+        }
         const data = snapshot.data();
         console.log('data', data);
-        // .map((doc) => ({
-        //   id: doc.id,
-        //   ...doc.data(),
-        // }));
-
-        // setGame(data);
+        const game : Game = {
+          team1: snapshot.data().team1,
+          team2: snapshot.data().team2,
+          teamBattingFirst: snapshot.data().teamBattingFirst,
+          innings1: snapshot.data().innings1,
+          innings2: snapshot.data().innings2,
+        };
+        setGame(game);
         setLoading(false);
       },
       (error) => {
@@ -50,7 +66,7 @@ export function GameProvider ({children, gameId}: GameProviderProps) {
     return unsubscribe;
   }, [gameId]);
 
-  const value: GameContextType = { gameId, loading, error, };
+  const value: GameContextType = { gameId, game, loading, error, };
 
   return (
     <GameContext.Provider value={value}>

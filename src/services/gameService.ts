@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { CurrentGame } from '../types/currentGame';
-import { doc, getDoc } from 'firebase/firestore';
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 
 const currentGameCollection = 'currentGame';
@@ -51,3 +51,25 @@ export const fetchCurrentGame = createAsyncThunk('currentGame/fetchCurrentGame',
     // }
     return currentGame;
 });
+
+export const endCurrentGame = createAsyncThunk('game/endGame', async() => {
+    const currentGameDocRef = doc(db, 'currentGame', 'details');
+    await deleteDoc(currentGameDocRef);
+});
+
+export const startInnings = createAsyncThunk('game/startInnings', async (input: {gameId: string, inningsId: string}) => {
+    if(input.gameId && input.inningsId) {
+        const key = `innings${input.inningsId}`;
+        const gameDocRef = doc(db, 'games', input.gameId);
+        await setDoc(gameDocRef, { [key] : {status: 'In progress'}}, {merge: true});
+    }
+});
+
+export const endInnings = createAsyncThunk('game/endInnings', async (input: {gameId: string, inningsId: string}) => {
+    if(input.gameId && input.inningsId) {
+        const key = `innings${input.inningsId}`;
+        const gameDocRef = doc(db, 'games', input.gameId);
+        await setDoc(gameDocRef, { [key] : {status: 'Finished'}}, {merge: true});
+    }
+});
+

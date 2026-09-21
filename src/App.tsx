@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Main from './Main';
-import NewOrResumeGame from './game/newOrResumeGame';
 import GameRoot from './game/gameRoot';
 import GameHome from './game/gameHome';
 
