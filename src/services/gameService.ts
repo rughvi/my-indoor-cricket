@@ -1,13 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { CurrentGame } from '../types/currentGame';
-import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
+import { EmptyGame, Game } from '../types/game';
 
 const currentGameCollection = 'currentGame';
 const currentGameDocument = 'details';
+const gamesCollection = 'games';
 
 export const fetchCurrentGame = createAsyncThunk('currentGame/fetchCurrentGame', async (gameId: string) => {
-    let currentGame: CurrentGame = { gameId: '' };
+    let currentGame: CurrentGame = { gameId: '', game: EmptyGame };
     if(gameId.length > 0) {
         currentGame.gameId = gameId;
     } else {
@@ -50,6 +52,15 @@ export const fetchCurrentGame = createAsyncThunk('currentGame/fetchCurrentGame',
     //     };
     // }
     return currentGame;
+});
+
+export const createNewGame = createAsyncThunk('game/createNewGame', async (game: Game) => {
+    const gameDocRef = await addDoc(collection(db, gamesCollection), game);
+
+    const currentGameDocRef = doc(db, currentGameCollection, currentGameDocument);
+    await setDoc(currentGameDocRef, <CurrentGame>{ gameId: gameDocRef.id });
+
+    return gameDocRef.id;
 });
 
 export const endCurrentGame = createAsyncThunk('game/endGame', async() => {

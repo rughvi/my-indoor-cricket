@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { CurrentGame } from "../types/currentGame";
 import { fetchCurrentGame } from "../services/gameService";
 import { Status } from "../enums/status";
+import { EmptyGame } from "../types/game";
 
 export interface GameSliceState {
     fetchCurrentGameStatus: Status;
@@ -12,14 +13,16 @@ export interface GameSliceState {
 const gameSliceInitialState: GameSliceState = {
     fetchCurrentGameStatus: Status.Idle,
     fetchCurrentGameError: '',
-    currentGame: {gameId: ''}
+    currentGame: {gameId: '', game: EmptyGame}
 };
 
 export const gameSlice = createSlice({
     name: 'game',
     initialState: gameSliceInitialState,
     reducers: {
-
+        setTeamBattingFirst: (state, action) => {
+            state.currentGame.game.teamBattingFirst = action.payload.teamBattingFirst;
+        },
     },
      extraReducers: (builder) => {
         builder
@@ -37,5 +40,5 @@ export const gameSlice = createSlice({
      }
 });
 
-// export const { setTeamBattingFirst, assignPlayersToTeams, clearTeamPlayers, updateInningsCurrentPlayer, updateInningsCurrentBowler } = gameSlice.actions;
+export const { setTeamBattingFirst } = gameSlice.actions;
 export default gameSlice.reducer;
