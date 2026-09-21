@@ -6,27 +6,28 @@ import firebaseApp from './firebase/firebase';
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDispatch, useSelector } from "react-redux";
-// import { fetchCurrentGame } from "./Services/GameService";
-// import { IRootDispatch, IRootState } from "./store/store";
+import { fetchCurrentGame } from "./services/gameService";
+import { IRootDispatch, IRootState } from "./store/store";
 // import { CurrentGame } from "./Models/CurrentGame";
 import { Status } from "./enums/status";
+import { CurrentGame } from "./types/currentGame";
 
 
 const Main = () => {
     const navigate = useNavigate();
-    // const dispatch = useDispatch<IRootDispatch>();
+    const dispatch = useDispatch<IRootDispatch>();
     const auth = getAuth(firebaseApp);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [user, loading, error] = useAuthState(auth);
-    // const currentGame = useSelector<IRootState, CurrentGame>(state => state.game.currentGame);
-    // const fetchCurrentGameStatus = useSelector<IRootState, Status>(state => state.game.fetchCurrentGameStatus);
-    // const fetchCurrentGameError = useSelector<IRootState, string>(state => state.game.fetchCurrentGameError);
+    const currentGame = useSelector<IRootState, CurrentGame>(state => state.game.currentGame);
+    const fetchCurrentGameStatus = useSelector<IRootState, Status>(state => state.game.fetchCurrentGameStatus);
+    const fetchCurrentGameError = useSelector<IRootState, string>(state => state.game.fetchCurrentGameError);
     
     useEffect(() => {
         if(user) {
-            // dispatch(fetchCurrentGame(''));
-            navigate('/new-or-resume-game')
+            dispatch(fetchCurrentGame(''));
+            // navigate('/new-or-resume-game')
         } else {
             console.log('user not present');
         }
@@ -65,45 +66,43 @@ const Main = () => {
                 </header>
             </div>
         );
-    } else {
-        return <></>;
     }
 
-    // if(fetchCurrentGameStatus === Status.Fulfilled) {
-    //     if(currentGame.gameId !== '') {
-    //         return (
-    //             <div className="App">
-    //                 <header className="App-header">
-    //                     <button className="ActionButton" onClick={() => {navigate('/game')}}> Resume game </button>
-    //                 </header>
-    //             </div>
-    //         );
-    //     } else {
-    //         return (
-    //             <div className="App">
-    //                 <header className="App-header">
-    //                     <button className="ActionButton" onClick={() => {navigate('/gameSelection')}}> Play a game </button>
-    //                 </header>
-    //             </div>
-    //         );
-    //     }        
-    // } else if (fetchCurrentGameStatus === Status.Pending) {
-    //     return (
-    //         <div className="App"> 
-    //             <header className="App-header">
-    //                 Loading...
-    //             </header>
-    //         </div>
-    //     );
-    // } else {
-    //     return (
-    //         <div className="App"> 
-    //             <header className="App-header">
-    //                 Error: {fetchCurrentGameError}
-    //             </header>
-    //         </div>
-    //     );
-    // }
+    if(fetchCurrentGameStatus === Status.Fulfilled) {
+        if(currentGame.gameId !== '') {
+            return (
+                <div className="App">
+                    <header className="App-header">
+                        <button className="ActionButton" onClick={() => {navigate('/game')}}> Resume game </button>
+                    </header>
+                </div>
+            );
+        } else {
+            return (
+                <div className="App">
+                    <header className="App-header">
+                        <button className="ActionButton" onClick={() => {navigate('/gameSelection')}}> Play a game </button>
+                    </header>
+                </div>
+            );
+        }        
+    } else if (fetchCurrentGameStatus === Status.Pending) {
+        return (
+            <div className="App"> 
+                <header className="App-header">
+                    Loading...
+                </header>
+            </div>
+        );
+    } else {
+        return (
+            <div className="App"> 
+                <header className="App-header">
+                    Error: {fetchCurrentGameError}
+                </header>
+            </div>
+        );
+    }
 };
 
 export default Main;
