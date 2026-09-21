@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { EmptyGame, Game } from "../types/game";
 import { Player } from "../types/player";
 import { setTeamBattingFirst } from "../store/gameSlice";
-import { createNewGame } from "../services/gameService";
+import { createNewGame, fetchAllPlayers, fetchCurrentGame } from "../services/gameService";
 
 const GameStart = () => {
     const navigate = useNavigate();
@@ -16,15 +16,19 @@ const GameStart = () => {
     const teamBattingFirst = useSelector<IRootState, Teams>(state => state.game.currentGame.game.teamBattingFirst);
     const [ error, setError ] = useState<string>('');
 
+    useEffect(() => {
+        dispatch(fetchAllPlayers());
+    }, []);
+    
     const startGame = async () => {
         if(team1Players.length === 0 || team2Players.length === 0) {
             setError('Please select players for the teams');
             return;
         }
 
-        const game: Game = {...EmptyGame, team1: team1Players, team2: team2Players };
+        const game: Game = {...EmptyGame, team1: team1Players, team2: team2Players, teamBattingFirst };
         await dispatch(createNewGame(game)).unwrap();
-        // await dispatch(fetchCurrentGame('')).unwrap();
+        await dispatch(fetchCurrentGame('')).unwrap();
         navigate('/game');
     };
     return(

@@ -1,12 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { CurrentGame } from '../types/currentGame';
-import { addDoc, collection, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import { EmptyGame, Game } from '../types/game';
+import { Player } from '../types/player';
 
 const currentGameCollection = 'currentGame';
 const currentGameDocument = 'details';
 const gamesCollection = 'games';
+
+export const fetchAllPlayers = createAsyncThunk('players/fetchAllPlayers', async () => {
+    const playersColl = collection(db, 'players');
+    const playersSnapshot = await getDocs(playersColl);
+    const players = playersSnapshot.docs.map(doc => <Player>{ name: doc.data().name });
+    return players;
+});
 
 export const fetchCurrentGame = createAsyncThunk('currentGame/fetchCurrentGame', async (gameId: string) => {
     let currentGame: CurrentGame = { gameId: '', game: EmptyGame };

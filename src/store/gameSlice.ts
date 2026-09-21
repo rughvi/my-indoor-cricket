@@ -23,6 +23,13 @@ export const gameSlice = createSlice({
         setTeamBattingFirst: (state, action) => {
             state.currentGame.game.teamBattingFirst = action.payload.teamBattingFirst;
         },
+        assignPlayersToTeams: (state, action) => {
+            if(action.payload.team === "1") {
+                state.currentGame.game.team1 = Object.assign([], action.payload.players);
+            } else if (action.payload.team === "2") {
+                state.currentGame.game.team2 = Object.assign([], action.payload.players);
+            }
+        },
     },
      extraReducers: (builder) => {
         builder
@@ -40,5 +47,5 @@ export const gameSlice = createSlice({
      }
 });
 
-export const { setTeamBattingFirst } = gameSlice.actions;
+export const { setTeamBattingFirst, assignPlayersToTeams } = gameSlice.actions;
 export default gameSlice.reducer;
