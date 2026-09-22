@@ -64,4 +64,5 @@
     height: 25px;
     border: 2px solid;
     font-size: calc(8px + 2vmin);
+    font-weight: bold;
 }
