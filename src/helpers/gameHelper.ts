@@ -44,19 +44,39 @@ export const bowlerStats = (game: Game, inningsId: string, bowler?: Player) => {
     return bowlerStats;
 }
 
-export const currentPlayersStats = (game: Game, player1?: Player, player2?: Player): {
-    currentPlayer1Scores: number[],
-    currentPlayer2Scores: number[]
+export const currentPlayersStats = (game: Game, inningsId: string, player1?: Player, player2?: Player): {
+    currentPlayer1Scores: { runs: number, balls: number },
+    currentPlayer2Scores: { runs: number, balls: number }
 } => {
-    if(player1 && player2) {
+    if(!player1 || !player2) {
         return {
-            currentPlayer1Scores: [0],
-            currentPlayer2Scores: [0]
+            currentPlayer1Scores: { runs: 0, balls: 0 },
+            currentPlayer2Scores: { runs: 0, balls: 0 }
         }
     }
+    let inningsScore;
+    if(inningsId == "1") {
+        inningsScore = game.innings1.score
+        
+    } else {
+        inningsScore = game.innings2.score
+    }
+    const player1BallEvents = inningsScore.filter(s => s.striker === player1?.name).map(s =>s.runs);
+    let player1Runs = 0;
+    const player1Balls = player1BallEvents.length;
+    if(player1BallEvents.length > 0) {
+        player1Runs = player1BallEvents.reduce((acc, r) => acc + r, 0);
+    }
+    
+    const player2BallEvents = inningsScore.filter(s => s.striker === player2?.name).map(s => s.runs);
+    let player2Runs = 0;
+    const player2Balls = player2BallEvents.length;
+    if(player2BallEvents.length > 0) {
+        player2Runs = player2BallEvents.reduce((acc, r) => acc + r, 0);
+    }
     return {
-        currentPlayer1Scores: [0],
-        currentPlayer2Scores: [0]
+        currentPlayer1Scores: { runs: player1Runs, balls: player1Balls },
+        currentPlayer2Scores: { runs: player2Runs, balls: player2Balls }
     }
 }
 

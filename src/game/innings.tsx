@@ -43,7 +43,7 @@ const Innings = () => {
         currentPlayer1 = game.innings2.currentPlayer1;
         currentPlayer2 = game.innings2.currentPlayer2
     }
-    const currentPlayersScore = currentPlayersStats(game, currentPlayer1, currentPlayer2);
+    const currentPlayersScore = currentPlayersStats(game, inningsId!, currentPlayer1, currentPlayer2);
     const choosePlayer = (playerBowler: string, currentPlayerId: number) => {
         // const nonCurrentPlayer = (currentPlayerId === 1 ? currentPlayer2: currentPlayer1);
         let playersToChooseFrom = [];
@@ -178,7 +178,7 @@ const Innings = () => {
                                 <span>
                                     <input type="radio" checked={currentBatsman?.name === currentPlayer1?.name}>
                                     </input>
-                                </span>{currentPlayer1?.name} {currentPlayersScore.currentPlayer1Scores?.reduce((a,c) => a+c) ?? 0} ({currentPlayersScore.currentPlayer1Scores?.length ?? 0})
+                                </span>{currentPlayer1?.name} {currentPlayersScore.currentPlayer1Scores.runs} ({currentPlayersScore.currentPlayer1Scores.balls})
                             </div>
                             <Edit style={{height: "25px", width: "25px"}} onClick={() => {choosePlayer('player', 1)}}/>
                         </div>
@@ -189,7 +189,7 @@ const Innings = () => {
                                 <span>
                                     <input type="radio" checked={currentBatsman?.name === currentPlayer2?.name}>
                                     </input>
-                                </span>{currentPlayer2?.name} {currentPlayersScore.currentPlayer2Scores?.reduce((a,c) => a+c) ?? 0} ({currentPlayersScore.currentPlayer2Scores?.length ?? 0})
+                                </span>{currentPlayer2?.name} {currentPlayersScore.currentPlayer2Scores.runs} ({currentPlayersScore.currentPlayer2Scores.balls})
                             </div>
                             <Edit style={{height: "25px", width: "25px"}} onClick={() => {choosePlayer('player', 2)}}/>
                         </div>
