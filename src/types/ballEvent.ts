@@ -23,3 +23,16 @@ export interface BallEvent {
         player: string;        
     }
 }
+
+export const EmptyBallEvent: BallEvent = {
+    sequence: 0,
+    status: BallEventStatus.Delivery,
+    totalRuns: 0,
+    totalBalls: 0,
+    totalExtras: 0,
+    totalWickets: 0,
+    striker: '',
+    nonStriker: '',
+    bowler: '',
+    runs: 0
+}

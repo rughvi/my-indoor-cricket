@@ -1,6 +1,9 @@
+import { BallEventStatus } from "../enums/ballEventStatus";
+import { BallEvent, EmptyBallEvent } from "../types/ballEvent";
 import { BowlerStats } from "../types/bowlerStats";
 import { Game } from "../types/game";
 import { Player } from "../types/player";
+import { ScoreKeyEventType } from "../types/scoreKeyEvent";
 
 export const inningsStats = (game: Game) => {
     const innings1Score = game?.innings1?.score?.sort((a, b) => b.sequence - a.sequence);
@@ -55,4 +58,37 @@ export const currentPlayersStats = (game: Game, player1?: Player, player2?: Play
         currentPlayer1Scores: [0],
         currentPlayer2Scores: [0]
     }
+}
+
+export const getLastBallEvent = (game: Game, inningsId: string): BallEvent => {
+    let score: BallEvent[] = [];
+    if(inningsId == "1") {
+        score = game.innings1.score;
+    } else {
+        score = game.innings2.score;
+    }
+    if(score.length == 0) {
+        return EmptyBallEvent;
+    }
+    const sortedScore = score.sort((a, b) => b.sequence - a.sequence);
+    return sortedScore[0];
+}
+
+export const getBallEventForScoreKey = (
+    game: Game, 
+    inningsId: string, 
+    scoreKeyEventType: ScoreKeyEventType,
+    striker: Player,
+    nonStriker: Player): BallEvent => {
+    const lastBallEvent = getLastBallEvent(game, inningsId);
+
+    const ballEvent: BallEvent = {
+        ...lastBallEvent,
+        runs: scoreKeyEventType.value,
+        totalBalls: lastBallEvent.totalBalls + 1,
+        totalRuns: lastBallEvent.totalRuns + scoreKeyEventType.value,
+        striker: striker.name,
+        nonStriker: nonStriker.name
+    };
+    return ballEvent;
 }

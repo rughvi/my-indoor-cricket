@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { CurrentGame } from '../types/currentGame';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, runTransaction, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import { EmptyGame, Game } from '../types/game';
 import { Player } from '../types/player';
+import { BallEvent } from '../types/ballEvent';
 
 const currentGameCollection = 'currentGame';
 const currentGameDocument = 'details';
@@ -92,3 +93,39 @@ export const endInnings = createAsyncThunk('game/endInnings', async (input: {gam
     }
 });
 
+export const updateScore = createAsyncThunk('game/innings/updateScore', async(input: {gameId: string, inningsId: string, ballEvent: BallEvent}) => {
+    if(input.gameId && input.inningsId) {
+        const key = `innings${input.inningsId}`;
+        const gameDocRef = doc(db, 'games', input.gameId);
+        await setDoc(gameDocRef, { score : arrayUnion(input.ballEvent)});
+    }
+});
+
+export const addPlayerToTeam = createAsyncThunk('game/addPlayerToTeam', async(input: {gameId: string, team: string, player: Player}) => {
+    await runTransaction(db, async (transaction) => {
+        const gameDocRef = doc(db, 'games', input.gameId);
+        const gameDoc = await transaction.get(gameDocRef);
+        if (!gameDoc.exists()) {
+            throw "Document does not exist!";
+        }
+
+        const gameData = gameDoc.data();        
+        const team = gameData[input.team];
+        team.push({name: input.player.name});
+        await transaction.set(gameDocRef, {[input.team]: team}, {merge: true});
+    });
+});
+
+export const updateInningsCurrentPlayer = createAsyncThunk('game/updateGame', async (input: {gameId: string, inningsId: string, playerId: string, value: Player}) => {
+    if(input.gameId) {
+        const gameDocRef = doc(db, 'games', input.gameId);
+        await setDoc(gameDocRef, { [`innings${input.inningsId}`]: {[`currentPlayer${input.playerId}`] : input.value}}, {merge: true});
+    }
+});
+
+export const updateInningsCurrentBowler = createAsyncThunk('game/updateGame', async (input: {gameId: string, inningsId: string, playerId: string, value: Player}) => {
+    if(input.gameId) {
+        const gameDocRef = doc(db, 'games', input.gameId);
+        await setDoc(gameDocRef, { [`innings${input.inningsId}`]: {currentBowler : input.value}}, {merge: true});
+    }
+});

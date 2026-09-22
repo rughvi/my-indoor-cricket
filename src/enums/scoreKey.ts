@@ -1,0 +1,21 @@
+export enum ScoreKey {
+    Dot,
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    NoBall,
+    NoBallPlusOne,
+    NoBallPlusTwo,
+    NoBallPlusThree,
+    NoBallPlusFour,
+    NoBallPlusFive,
+    NoBallPlusSix,
+    Wide,
+    Wicket,
+    Bowled,
+    Catch,
+    Runout
+}
