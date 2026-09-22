@@ -153,7 +153,7 @@ const Innings = () => {
                 </div> */}
                 
                 <br/>
-                <div className="BowlerCard" style={{borderStyle: "solid", borderRadius: "10px", borderWidth: "thin", padding: 10, margin: 10, backgroundColor: "whitesmoke"}}>
+                <div className="BowlerCard" style={{borderStyle: "solid", borderRadius: "10px", borderWidth: "thin", padding: 10, margin: 5, backgroundColor: "whitesmoke"}}>
                     <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: "20px"}}>
                         <div style={{color: "black", fontWeight: "bold", fontSize: "14px"}}>Bowler:</div>
                         <div style={{fontSize: "12px", width:"100px", textAlign: "end", textDecoration:"underline"}} onClick={() => navigate(`/inningsScore/${inningsId}`)}>more</div>
@@ -168,7 +168,7 @@ const Innings = () => {
                         </div>
                     </div>
                 </div>
-                <div className="BatsmenCard" style={{borderStyle: "solid", borderRadius: "10px", borderWidth: "thin", padding: 10, margin: 10, backgroundColor: "whitesmoke"}}>
+                <div className="BatsmenCard" style={{borderStyle: "solid", borderRadius: "10px", borderWidth: "thin", padding: 10, margin: 5, backgroundColor: "whitesmoke"}}>
                     <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: "20px"}}>
                         <div style={{color: "black", fontWeight: "bold", fontSize: "14px"}}>Batsmen:</div>
                         <div style={{fontSize: "12px", width:"100px", textAlign: "end", textDecoration:"underline"}} onClick={() => navigate(`/inningsScore/${inningsId}`)}>more</div>
@@ -197,7 +197,6 @@ const Innings = () => {
                         </div>
                     </div>
                 </div>
-                <br />
                 <ScoreKeyboard onClick={onClickScoreKey} />
                 {
                     error.length > 0 &&
