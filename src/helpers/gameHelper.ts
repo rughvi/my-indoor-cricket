@@ -84,6 +84,7 @@ export const getBallEventForScoreKey = (
 
     const ballEvent: BallEvent = {
         ...lastBallEvent,
+        sequence: lastBallEvent.sequence + 1,
         runs: scoreKeyEventType.value,
         totalBalls: lastBallEvent.totalBalls + 1,
         totalRuns: lastBallEvent.totalRuns + scoreKeyEventType.value,

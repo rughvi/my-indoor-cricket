@@ -1,4 +1,4 @@
 export enum BallEventStatus {
-    Delivery,
-    Void
+    Delivery = 'Delivery',
+    Void = 'Void'
 }

@@ -93,11 +93,11 @@ export const endInnings = createAsyncThunk('game/endInnings', async (input: {gam
     }
 });
 
-export const updateScore = createAsyncThunk('game/innings/updateScore', async(input: {gameId: string, inningsId: string, ballEvent: BallEvent}) => {
+export const addBallEvent = createAsyncThunk('game/innings/addBallEvent', async(input: {gameId: string, inningsId: string, ballEvent: BallEvent}) => {
     if(input.gameId && input.inningsId) {
         const key = `innings${input.inningsId}`;
         const gameDocRef = doc(db, 'games', input.gameId);
-        await setDoc(gameDocRef, { score : arrayUnion(input.ballEvent)});
+        await setDoc(gameDocRef, { [key]: {score : arrayUnion(input.ballEvent)}}, {merge: true});
     }
 });
 

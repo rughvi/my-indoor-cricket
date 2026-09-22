@@ -31,7 +31,6 @@ const GameHome = () => {
     if(game.innings2.status == InningsStatus.Finished) {
         innings2Action = 'Finished';
     }
-    console.log('gameHome', game);
 
     const stats = inningsStats(game);
     const startResumeInnings = async (inningsId: string) => {

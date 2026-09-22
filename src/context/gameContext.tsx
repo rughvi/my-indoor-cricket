@@ -34,7 +34,6 @@ export function GameProvider ({children, gameId}: GameProviderProps) {
 
   useEffect(() => {
     const gameRef = doc(db, gamesCollection, gameId);
-    console.log('gameRef', gameId, gameRef);
     const unsubscribe = onSnapshot(
       gameRef,
       (snapshot) => {
@@ -44,7 +43,6 @@ export function GameProvider ({children, gameId}: GameProviderProps) {
           return;
         }
         const data = snapshot.data();
-        console.log('data', data);
         const game : Game = {
           team1: snapshot.data().team1,
           team2: snapshot.data().team2,
