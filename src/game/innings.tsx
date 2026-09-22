@@ -184,6 +184,7 @@ const Innings = () => {
                             <Edit style={{height: "25px", width: "25px"}} onClick={() => {choosePlayer('player', 1)}}/>
                         </div>
                     </div>
+                    <br />
                     <div className="GameCard-header">
                         <div style={{width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
                             <div style={{minWidth: '70%'}}  onClick={() => setCurrentBatsman(currentPlayer2)}>

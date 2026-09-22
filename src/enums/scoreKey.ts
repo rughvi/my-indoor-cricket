@@ -14,6 +14,9 @@ export enum ScoreKey {
     NoBallPlusFive,
     NoBallPlusSix,
     Wide,
+    WidePlusOne,
+    WidePlusTwo,
+    WidePlusThree,
     Wicket,
     Bowled,
     Catch,
@@ -22,6 +25,9 @@ export enum ScoreKey {
 
 export const WidesAndNoballs = [
     ScoreKey.Wide,
+    ScoreKey.WidePlusOne,
+    ScoreKey.WidePlusTwo,
+    ScoreKey.WidePlusThree,
     ScoreKey.NoBall,
     ScoreKey.NoBallPlusOne,
     ScoreKey.NoBallPlusTwo,

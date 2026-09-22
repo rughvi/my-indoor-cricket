@@ -82,6 +82,21 @@ export const ScoreKeyEvent = {
         value: 3,
         label: "WD"
     },
+    WidePlusOne: {
+        type: ScoreKey.WidePlusOne,
+        value: 4,
+        label: "WD1"
+    },
+    WidePlusTwo: {
+        type: ScoreKey.WidePlusTwo,
+        value: 5,
+        label: "WD2"
+    },
+    WidePlusThree: {
+        type: ScoreKey.WidePlusThree,
+        value: 6,
+        label: "WD3"
+    },
     Wicket: {
         type: ScoreKey.Wicket,
         value: 0,
