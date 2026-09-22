@@ -14,13 +14,13 @@ export interface BallEvent {
     bowler: string;
     runs: number;
     
-    extras?: {
-        type: ExtrasType,
-        runs: number
+    extras: {
+        type?: ExtrasType,
+        runs?: number
     };
 
-    wicket?: {
-        player: string;        
+    wicket: {
+        player?: string;        
     }
 }
 
@@ -34,5 +34,7 @@ export const EmptyBallEvent: BallEvent = {
     striker: '',
     nonStriker: '',
     bowler: '',
-    runs: 0
+    runs: 0,
+    extras: {},
+    wicket: {}
 }

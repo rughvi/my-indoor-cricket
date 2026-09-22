@@ -19,3 +19,14 @@ export enum ScoreKey {
     Catch,
     Runout
 }
+
+export const WidesAndNoballs = [
+    ScoreKey.Wide,
+    ScoreKey.NoBall,
+    ScoreKey.NoBallPlusOne,
+    ScoreKey.NoBallPlusTwo,
+    ScoreKey.NoBallPlusThree,
+    ScoreKey.NoBallPlusFour,
+    ScoreKey.NoBallPlusFive,
+    ScoreKey.NoBallPlusSix
+]

@@ -73,10 +73,8 @@ const Innings = () => {
             setError('Select current players and bowlers');
             return;
         }
-        if(inningsId == "1") {
-            const ballEvent: BallEvent = getBallEventForScoreKey(game, inningsId, scoreKeyEventType, currentPlayer1!, currentPlayer2!, currentBowler!);
-            await dispatch(addBallEvent({gameId, inningsId, ballEvent}));
-        }
+        const ballEvent: BallEvent = getBallEventForScoreKey(game, inningsId!, scoreKeyEventType, currentPlayer1!, currentPlayer2!, currentBowler!);
+        await dispatch(addBallEvent({gameId, inningsId: inningsId!, ballEvent})).unwrap();
         // if((scoreKeyEventType.type === ScoreKey.Wide) || (scoreKeyEventType.type === ScoreKey.NoBall) 
         //     || (scoreKeyEventType.type === ScoreKey.NoBallPlusOne) || (scoreKeyEventType.type === ScoreKey.NoBallPlusTwo) || (scoreKeyEventType.type === ScoreKey.NoBallPlusThree)
         //     || (scoreKeyEventType.type === ScoreKey.NoBallPlusFour) || (scoreKeyEventType.type === ScoreKey.NoBallPlusFive) || (scoreKeyEventType.type === ScoreKey.NoBallPlusSix)) {
@@ -96,11 +94,14 @@ const Innings = () => {
         // };
         // await dispatch(updateInningsBowling(input))
         // await dispatch(fetchCurrentGame(currentGame.gameId)).unwrap();
-        // if((inningsId == "1" && (currentGame.game.innings1TotalBalls! %6 == 5)) || (inningsId == "2" && (currentGame.game.innings2TotalBalls! %6 == 5))) {
+        // if((inningsId == "1" && (ballEvent.totalBalls! %6 == 5)) || (inningsId == "2" && (game.innings2TotalBalls! %6 == 5))) {
         //     setCurrentBowler(undefined);
         //     setCurrentBowlerStats(undefined);
         //     choosePlayer('bowler', -1);
         // }
+        if(ballEvent.totalBalls % 6 == 0) {
+            choosePlayer('bowler', -1);
+        }
     };
     
     return(

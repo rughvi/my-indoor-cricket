@@ -1,4 +1,5 @@
-import { BallEventStatus } from "../enums/ballEventStatus";
+import { ExtrasType } from "../enums/extrasType";
+import { ScoreKey, WidesAndNoballs } from "../enums/scoreKey";
 import { BallEvent, EmptyBallEvent } from "../types/ballEvent";
 import { BowlerStats } from "../types/bowlerStats";
 import { Game } from "../types/game";
@@ -32,8 +33,8 @@ export const bowlerStats = (game: Game, inningsId: string, bowler?: Player) => {
 
     const ballEvents = inningsScore.filter(s => s.bowler === bowler?.name);
     const balls = ballEvents?.length ?? 0;
-    const runs = ballEvents?.reduce((acc, e) => acc + e.runs, 0);
-    const wickets = ballEvents?.filter(e => e.wicket)?.length ?? 0;
+    const runs = ballEvents?.reduce((acc, e) => acc + e.runs+(e.extras.runs??0), 0);
+    const wickets = ballEvents?.filter(e => e.wicket.player)?.length ?? 0;
 
     const bowlerStats: BowlerStats =  {
         overs: `${Math.floor(balls / 6)}.${balls % 6}`,
@@ -102,16 +103,37 @@ export const getBallEventForScoreKey = (
     nonStriker: Player,
     bowler: Player): BallEvent => {
     const lastBallEvent = getLastBallEvent(game, inningsId);
-
-    const ballEvent: BallEvent = {
-        ...lastBallEvent,
-        sequence: lastBallEvent.sequence + 1,
-        runs: scoreKeyEventType.value,
-        totalBalls: lastBallEvent.totalBalls + 1,
-        totalRuns: lastBallEvent.totalRuns + scoreKeyEventType.value,
-        striker: striker.name,
-        nonStriker: nonStriker.name,
-        bowler: bowler.name
-    };
+    let ballEvent: BallEvent;
+    if(WidesAndNoballs.includes(scoreKeyEventType.type)) {
+        ballEvent = {
+            ...lastBallEvent,
+            sequence: lastBallEvent.sequence + 1,
+            runs: 0,
+            totalBalls: lastBallEvent.totalBalls + 1,
+            totalRuns: lastBallEvent.totalRuns + scoreKeyEventType.value,
+            totalExtras: lastBallEvent.totalExtras + scoreKeyEventType.value,            
+            extras: {
+                type: scoreKeyEventType.value == ScoreKey.Wide? ExtrasType.Wide : ExtrasType.Noball,
+                runs: scoreKeyEventType.value
+            },
+            wicket: {},
+            striker: striker.name,
+            nonStriker: nonStriker.name,
+            bowler: bowler.name
+        };
+    } else {
+        ballEvent = {
+            ...lastBallEvent,
+            sequence: lastBallEvent.sequence + 1,
+            runs: scoreKeyEventType.value,
+            totalBalls: lastBallEvent.totalBalls + 1,
+            totalRuns: lastBallEvent.totalRuns + scoreKeyEventType.value,
+            extras: {},
+            wicket: {},
+            striker: striker.name,
+            nonStriker: nonStriker.name,
+            bowler: bowler.name
+        };
+    }
     return ballEvent;
 }
