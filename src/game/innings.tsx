@@ -74,7 +74,7 @@ const Innings = () => {
             return;
         }
         if(inningsId == "1") {
-            const ballEvent: BallEvent = getBallEventForScoreKey(game, inningsId, scoreKeyEventType, currentPlayer1!, currentPlayer2!);
+            const ballEvent: BallEvent = getBallEventForScoreKey(game, inningsId, scoreKeyEventType, currentPlayer1!, currentPlayer2!, currentBowler!);
             await dispatch(addBallEvent({gameId, inningsId, ballEvent}));
         }
         // if((scoreKeyEventType.type === ScoreKey.Wide) || (scoreKeyEventType.type === ScoreKey.NoBall) 

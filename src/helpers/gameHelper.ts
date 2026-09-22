@@ -79,7 +79,8 @@ export const getBallEventForScoreKey = (
     inningsId: string, 
     scoreKeyEventType: ScoreKeyEventType,
     striker: Player,
-    nonStriker: Player): BallEvent => {
+    nonStriker: Player,
+    bowler: Player): BallEvent => {
     const lastBallEvent = getLastBallEvent(game, inningsId);
 
     const ballEvent: BallEvent = {
@@ -89,7 +90,8 @@ export const getBallEventForScoreKey = (
         totalBalls: lastBallEvent.totalBalls + 1,
         totalRuns: lastBallEvent.totalRuns + scoreKeyEventType.value,
         striker: striker.name,
-        nonStriker: nonStriker.name
+        nonStriker: nonStriker.name,
+        bowler: bowler.name
     };
     return ballEvent;
 }
