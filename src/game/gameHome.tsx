@@ -36,7 +36,7 @@ const GameHome = () => {
     const stats = inningsStats(game);
     const startResumeInnings = async (inningsId: string) => {
         await dispatch(startInnings({gameId, inningsId: inningsId})).unwrap();
-        // navigate(`/innings/${inningsId}`);
+        navigate(`/game/innings/${inningsId}`);
     };
 
     const endInningsFn = async (id: string) => {        

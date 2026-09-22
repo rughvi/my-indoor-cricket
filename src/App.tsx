@@ -6,6 +6,7 @@ import GameRoot from './game/gameRoot';
 import GameHome from './game/gameHome';
 import GameStart from './game/gameStart';
 import TeamSelection from './game/teamSelection';
+import Innings from './game/innings';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/teamSelection/:teamIndex" Component={TeamSelection}></Route>
         <Route path="/game" element={<GameRoot />}>
             <Route index element={<GameHome />} />
+            <Route path='innings/:inningsId' element={<Innings />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

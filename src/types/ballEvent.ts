@@ -13,8 +13,13 @@ export interface BallEvent {
     nonStriker: string;
     bowler: string;
     runs: number;
-    extras: {
+    
+    extras?: {
         type: ExtrasType,
         runs: number
+    };
+
+    wicket?: {
+        player: string;        
     }
 }
