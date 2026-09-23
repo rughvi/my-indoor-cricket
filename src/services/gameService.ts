@@ -116,7 +116,7 @@ export const addPlayerToTeam = createAsyncThunk('game/addPlayerToTeam', async(in
     });
 });
 
-export const updateInningsCurrentPlayer = createAsyncThunk('game/updateGame', async (input: {gameId: string, inningsId: string, playerId: string, value: Player}) => {
+export const updateInningsCurrentPlayer = createAsyncThunk('game/updateGame', async (input: {gameId: string, inningsId: string, playerId: string, value: Player | null}) => {
     if(input.gameId) {
         const gameDocRef = doc(db, 'games', input.gameId);
         await setDoc(gameDocRef, { [`innings${input.inningsId}`]: {[`currentPlayer${input.playerId}`] : input.value}}, {merge: true});

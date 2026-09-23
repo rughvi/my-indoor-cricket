@@ -35,4 +35,9 @@ export const WidesAndNoballs = [
     ScoreKey.NoBallPlusFour,
     ScoreKey.NoBallPlusFive,
     ScoreKey.NoBallPlusSix
-]
+];
+
+export const BowledAndCatch = [
+    ScoreKey.Bowled,
+    ScoreKey.Catch
+];

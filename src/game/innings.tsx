@@ -7,9 +7,9 @@ import { Teams } from "../enums/teams";
 import { bowlerStats, currentPlayersStats, getBallEventForScoreKey, getLastBallEvent, inningsStats } from "../helpers/gameHelper";
 import { Player } from "../types/player";
 import ScoreKeyboard from "./scoreKeyboard";
-import { ScoreKey } from "../enums/scoreKey";
+import { BowledAndCatch } from "../enums/scoreKey";
 import { ScoreKeyEventType } from "../types/scoreKeyEvent";
-import { addBallEvent } from "../services/gameService";
+import { addBallEvent, updateInningsCurrentPlayer } from "../services/gameService";
 import { BallEvent } from "../types/ballEvent";
 import { IRootDispatch } from "../store/store";
 import { useDispatch } from "react-redux";
@@ -75,6 +75,10 @@ const Innings = () => {
         }
         const ballEvent: BallEvent = getBallEventForScoreKey(game, inningsId!, scoreKeyEventType, currentPlayer1!, currentPlayer2!, currentBowler!);
         await dispatch(addBallEvent({gameId, inningsId: inningsId!, ballEvent})).unwrap();
+        if(BowledAndCatch.includes(scoreKeyEventType.type)) {
+            setCurrentBatsman(undefined);
+            await dispatch(updateInningsCurrentPlayer({gameId: gameId, inningsId: inningsId!, playerId: "1", value: null })).unwrap();
+        }
         // if((scoreKeyEventType.type === ScoreKey.Wide) || (scoreKeyEventType.type === ScoreKey.NoBall) 
         //     || (scoreKeyEventType.type === ScoreKey.NoBallPlusOne) || (scoreKeyEventType.type === ScoreKey.NoBallPlusTwo) || (scoreKeyEventType.type === ScoreKey.NoBallPlusThree)
         //     || (scoreKeyEventType.type === ScoreKey.NoBallPlusFour) || (scoreKeyEventType.type === ScoreKey.NoBallPlusFive) || (scoreKeyEventType.type === ScoreKey.NoBallPlusSix)) {

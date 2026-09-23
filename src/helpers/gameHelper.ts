@@ -1,5 +1,5 @@
 import { ExtrasType } from "../enums/extrasType";
-import { ScoreKey, WidesAndNoballs } from "../enums/scoreKey";
+import { BowledAndCatch, ScoreKey, WidesAndNoballs } from "../enums/scoreKey";
 import { BallEvent, EmptyBallEvent } from "../types/ballEvent";
 import { BowlerStats } from "../types/bowlerStats";
 import { Game } from "../types/game";
@@ -121,7 +121,21 @@ export const getBallEventForScoreKey = (
             nonStriker: nonStriker.name,
             bowler: bowler.name
         };
-    } else {
+    } else if(BowledAndCatch.includes(scoreKeyEventType.type)) {
+        ballEvent = {
+            ...lastBallEvent,
+            sequence: lastBallEvent.sequence + 1,
+            runs: 0,
+            totalBalls: lastBallEvent.totalBalls + 1,
+            extras: {},
+            wicket: {
+                player: striker.name
+            },
+            striker: '',
+            nonStriker: nonStriker.name,
+            bowler: bowler.name
+        };
+    }else {
         ballEvent = {
             ...lastBallEvent,
             sequence: lastBallEvent.sequence + 1,
