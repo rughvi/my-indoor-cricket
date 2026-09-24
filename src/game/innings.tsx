@@ -3,8 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GameContextType, useGame } from "../context/gameContext";
 import { ReactComponent as Back } from '../back.svg';
 import { ReactComponent as Edit } from '../edit.svg';
+import { ReactComponent as Next } from '../next.svg';
+import { ReactComponent as Previous } from '../previous.svg'; 
 import { Teams } from "../enums/teams";
-import { bowlerStats, currentPlayersStats, getBallEventForRunout, getBallEventForScoreKey, inningsStats } from "../helpers/gameHelper";
+import { bowlerStats, currentPlayersStats, getBallEventForRunout, getBallEventForScoreKey, inningsStats, statsByBall } from "../helpers/gameHelper";
 import { Player } from "../types/player";
 import ScoreKeyboard from "./scoreKeyboard";
 import { BowledAndCatch, ScoreKey } from "../enums/scoreKey";
@@ -150,11 +152,13 @@ const Innings = () => {
                         <br/>
                     </>
                 }
-                {/* <div className="GameCard-header">
+                <div className="GameCard-header">
                     <Previous style={{height: "25px", width: "25px"}} />
-                    <div style={{display: "inline-block", overflowX: "auto", overflowY: "hidden", width: "80%",  whiteSpace: "nowrap"}}>{statsByBall()}</div>
+                    <div style={{display: "inline-block", overflowX: "auto", overflowY: "hidden", width: "80%",  whiteSpace: "nowrap"}}>
+                        {statsByBall(game, inningsId!)}
+                    </div>
                     <Next style={{height: "25px", width: "25px"}} />
-                </div> */}
+                </div>
                 
                 <br/>
                 <div className="BowlerCard" style={{borderStyle: "solid", borderRadius: "10px", borderWidth: "thin", padding: 10, margin: 5, backgroundColor: "whitesmoke"}}>

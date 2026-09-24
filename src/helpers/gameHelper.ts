@@ -181,3 +181,15 @@ export const getBallEventForRunout = (
 
         return ballEvent;
 }
+
+export const statsByBall = (game: Game, inningsId: string) => {
+    var runs: string[] = [];
+    const key = `innings${inningsId}`;
+    const scores = inningsId == "1"? game.innings1.score : game.innings2.score;
+    for(let i=0; i< scores.length; i++) {
+        const score = scores[i];
+        runs.push(String(score.runs));
+    }
+
+    return runs.join(" ");
+}
