@@ -4,12 +4,12 @@ import { GameContextType, useGame } from "../context/gameContext";
 import { ReactComponent as Back } from '../back.svg';
 import { ReactComponent as Edit } from '../edit.svg';
 import { Teams } from "../enums/teams";
-import { bowlerStats, currentPlayersStats, getBallEventForScoreKey, getLastBallEvent, inningsStats } from "../helpers/gameHelper";
+import { bowlerStats, currentPlayersStats, getBallEventForRunout, getBallEventForScoreKey, inningsStats } from "../helpers/gameHelper";
 import { Player } from "../types/player";
 import ScoreKeyboard from "./scoreKeyboard";
-import { BowledAndCatch } from "../enums/scoreKey";
-import { ScoreKeyEventType } from "../types/scoreKeyEvent";
-import { addBallEvent, updateInningsCurrentPlayer } from "../services/gameService";
+import { BowledAndCatch, ScoreKey } from "../enums/scoreKey";
+import { ScoreKeyEvent, ScoreKeyEventType } from "../types/scoreKeyEvent";
+import { addBallEvent, addBowledBallEvent, updateInningsCurrentPlayer } from "../services/gameService";
 import { BallEvent } from "../types/ballEvent";
 import { IRootDispatch } from "../store/store";
 import { useDispatch } from "react-redux";
@@ -22,6 +22,10 @@ const Innings = () => {
     const stats = inningsStats(game);
     const [currentBatsman, setCurrentBatsman] = useState<Player>();
     const [error, setError] = useState<string>('');
+    const [recordingRunout, setRecordingRunout] = useState<boolean>(false);
+    const [runoutRuns, setRunoutRuns] = useState<number>(0);
+    const [runoutBatsman, setRunoutBatsman] = useState<Player>();
+    const [runoutScoreBatsman, setRunoutScoreBatsman] = useState<Player>();
     let battingTeam = Teams.One;
     let bowlingTeam = Teams.Two;
     let currentBowler: Player | undefined;
@@ -65,48 +69,44 @@ const Innings = () => {
 
     const onClickScoreKey = async (scoreKeyEventType: ScoreKeyEventType) => {
         setError('');
-        // if(scoreKeyEventType.type === ScoreKey.Runout) {
-        //     setRecordingRunout(true);
-        //     return;
-        // };
+        if(scoreKeyEventType.type === ScoreKey.Runout) {
+            setRecordingRunout(true);
+            return;
+        };
         if((currentBowler?.name?.length ??0) === 0 || (currentBatsman?.name?.length ??0) === 0){
             setError('Select current players and bowlers');
             return;
         }
-        const ballEvent: BallEvent = getBallEventForScoreKey(game, inningsId!, scoreKeyEventType, currentPlayer1!, currentPlayer2!, currentBowler!);
-        await dispatch(addBallEvent({gameId, inningsId: inningsId!, ballEvent})).unwrap();
-        if(BowledAndCatch.includes(scoreKeyEventType.type)) {
+        const striker = currentBatsman?.name === currentPlayer1?.name? currentPlayer1 : currentPlayer2;
+        const nonStriker = currentBatsman?.name === currentPlayer1?.name? currentPlayer2 : currentPlayer1;
+        const ballEvent: BallEvent = getBallEventForScoreKey(game, inningsId!, scoreKeyEventType, striker!, nonStriker!, currentBowler!);
+        if(BowledAndCatch.includes(scoreKeyEventType.type)) {            
+            await dispatch(addBowledBallEvent({gameId, inningsId: inningsId!, ballEvent, playerId: (currentBatsman?.name == currentPlayer1?.name? "1": "2")})).unwrap();
             setCurrentBatsman(undefined);
-            await dispatch(updateInningsCurrentPlayer({gameId: gameId, inningsId: inningsId!, playerId: "1", value: null })).unwrap();
+        } else {
+            await dispatch(addBallEvent({gameId, inningsId: inningsId!, ballEvent})).unwrap();
         }
-        // if((scoreKeyEventType.type === ScoreKey.Wide) || (scoreKeyEventType.type === ScoreKey.NoBall) 
-        //     || (scoreKeyEventType.type === ScoreKey.NoBallPlusOne) || (scoreKeyEventType.type === ScoreKey.NoBallPlusTwo) || (scoreKeyEventType.type === ScoreKey.NoBallPlusThree)
-        //     || (scoreKeyEventType.type === ScoreKey.NoBallPlusFour) || (scoreKeyEventType.type === ScoreKey.NoBallPlusFive) || (scoreKeyEventType.type === ScoreKey.NoBallPlusSix)) {
-        //     await dispatch(updateInningsExtras({gameId: gameId, inningsId: inningsId!, score: scoreKeyEventType.value})).unwrap();
-        // } else if((scoreKeyEventType.type == ScoreKey.Bowled) || (scoreKeyEventType.type == ScoreKey.Catch)) {
-        //     await dispatch(updateInningsCurrentPlayerWicket({gameId: gameId, inningsId: inningsId!, player: currentBatsman!, currentPlayerKey: (currentBatsman?.name === currentPlayer1?.name ? `innings${inningsId}CurrentPlayer1` : `innings${inningsId}CurrentPlayer2` ), incrementBalls: true})).unwrap();
-        //     setCurrentBatsman(undefined);
-        // } else {
-        //     await dispatch(updateInningsCurrentPlayerScore({gameId: gameId, inningsId: inningsId!, player: currentBatsman!, score: scoreKeyEventType.value})).unwrap();
-        // }
-        // const input = {
-        //     gameId: gameId, 
-        //     inningsId: inningsId!, 
-        //     over: currentOver(), 
-        //     bowler: currentBowler?.name!, 
-        //     scoreWicket: scoreKeyEventType.label
-        // };
-        // await dispatch(updateInningsBowling(input))
-        // await dispatch(fetchCurrentGame(currentGame.gameId)).unwrap();
-        // if((inningsId == "1" && (ballEvent.totalBalls! %6 == 5)) || (inningsId == "2" && (game.innings2TotalBalls! %6 == 5))) {
-        //     setCurrentBowler(undefined);
-        //     setCurrentBowlerStats(undefined);
-        //     choosePlayer('bowler', -1);
-        // }
         if(ballEvent.totalBalls % 6 == 0) {
             choosePlayer('bowler', -1);
         }
     };
+    
+    const onRunout = async () => {
+        setError('');
+        if((runoutBatsman?.name?.length ??0) === 0 || (runoutScoreBatsman?.name?.length ??0) === 0){
+            setError('Select runout players');
+            return;
+        }
+        const scoreKeyEvent = ScoreKeyEvent.Runout;
+        scoreKeyEvent.value = runoutRuns;
+        const striker = currentBatsman?.name === currentPlayer1?.name? currentPlayer1 : currentPlayer2;
+        const nonStriker = currentBatsman == currentPlayer1? currentPlayer2 : currentPlayer1;
+        const ballEvent: BallEvent = getBallEventForRunout(game, inningsId!, scoreKeyEvent, striker!, nonStriker!, runoutBatsman!, currentBowler!);
+        await dispatch(addBallEvent({gameId, inningsId: inningsId!, ballEvent})).unwrap();        
+        await dispatch(updateInningsCurrentPlayer({gameId: gameId, inningsId: inningsId!, playerId: runoutBatsman == currentPlayer1? "1" : "2", value: null })).unwrap();
+        setCurrentBatsman(undefined);
+        setRecordingRunout(false);
+    }
     
     return(
         <div className="Form">
@@ -209,6 +209,34 @@ const Innings = () => {
                     </div>
                 }
             </div>
+            {recordingRunout && 
+                <div className="GameCard" style={{justifyContent: "center", position: "absolute", top:"0px", left:"0px", width:"100%", height:"100%", opacity:"0.9", color:"black"}}>
+                    <span style={{fontWeight:"bold"}}>Runout</span>
+                    <br/>
+                    <div className="GameCard-header" style={{justifyContent: "space-evenly"}}>
+                        <div style={{width:"40%"}}>Runout:</div>
+                        <div style={{textAlign:"center"}} onClick={() => setRunoutBatsman(currentPlayer1)}><span><input type="radio" checked={runoutBatsman?.name === currentPlayer1?.name}></input></span>{currentPlayer1?.name}</div>
+                        <div style={{textAlign:"center"}} onClick={() => setRunoutBatsman(currentPlayer2)}><span><input type="radio" checked={runoutBatsman?.name === currentPlayer2?.name}></input></span>{currentPlayer2?.name}</div>
+                    </div>
+                    <br/>
+                    <div className="GameCard-header" style={{justifyContent: "space-evenly"}}>
+                        <div style={{width:"40%"}}>Add <span><input type="number" defaultValue={0} style={{width:"30px"}} value={runoutRuns} onChange={(event) => setRunoutRuns(Number(event.target.value))}></input></span> runs to:</div>
+                        <div style={{textAlign:"center"}} onClick={() => setRunoutScoreBatsman(currentPlayer1)}><span><input type="radio" checked={runoutScoreBatsman?.name === currentPlayer1?.name}></input></span>{currentPlayer1?.name}</div>
+                        <div style={{textAlign:"center"}} onClick={() => setRunoutScoreBatsman(currentPlayer2)}><span><input type="radio" checked={runoutScoreBatsman?.name === currentPlayer2?.name}></input></span>{currentPlayer2?.name}</div>
+                    </div>
+                    <br/>
+                    <div>
+                        <button className="Button" onClick={() => setRecordingRunout(false)}>Cancel</button>
+                        <button className="Button" onClick={() => onRunout()}>Continue</button>
+                    </div>
+                    {
+                        error.length > 0 &&
+                        <div className="error"> 
+                            <p> { error } </p>
+                        </div>
+                    }
+                </div>
+            }
         </div>
     )
 }

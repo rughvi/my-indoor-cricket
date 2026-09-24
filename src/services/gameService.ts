@@ -116,6 +116,23 @@ export const addPlayerToTeam = createAsyncThunk('game/addPlayerToTeam', async(in
     });
 });
 
+export const addBowledBallEvent = createAsyncThunk('game/addBowledBallEvent', async (input: {gameId: string, inningsId: string, ballEvent: BallEvent, playerId: string}) => {
+    await runTransaction(db, async(transaction) => {
+        const gameDocRef = doc(db, 'games', input.gameId);
+        const gameDoc = await transaction.get(gameDocRef);
+        if (!gameDoc.exists()) {
+            throw "Document does not exist!";
+        }
+        const key = `innings${input.inningsId}`;
+        const gameData = gameDoc.data();
+        const innings = gameData[key];
+        const score = innings.score;
+        score.push(input.ballEvent);
+
+        await transaction.set(gameDocRef, { [key]: {[`currentPlayer${input.playerId}`]: null, score: score}}, {merge: true});
+    });
+});
+
 export const updateInningsCurrentPlayer = createAsyncThunk('game/updateGame', async (input: {gameId: string, inningsId: string, playerId: string, value: Player | null}) => {
     if(input.gameId) {
         const gameDocRef = doc(db, 'games', input.gameId);
