@@ -66,7 +66,7 @@ export const inningsBowlersStats = (game: Game, inningsId: string) => {
         result[key].balls = ballEvents.length;
         for(let ballEvent of ballEvents) {
             result[key].runs += ballEvent.scoreKeyEvent.value;
-            if(ballEvent.scoreKeyEvent.type in [ScoreKey.Bowled, ScoreKey.Catch, ScoreKey.Wicket]) {
+            if([ScoreKey.Bowled, ScoreKey.Catch, ScoreKey.Wicket].includes(ballEvent.scoreKeyEvent.type)) {
                 result[key].wickets += 1;
             }
         }
@@ -247,7 +247,7 @@ export const statsByBall = (game: Game, inningsId: string) => {
             runs.push("|")
         } 
         const score:BallEvent = scores[i];
-        runs.push(String(score.scoreKeyEvent.label));
+        runs.push(String(score.scoreKeyEvent.shortLabel));
     }
 
     return runs.join(" ");
