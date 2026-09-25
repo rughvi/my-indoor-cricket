@@ -8,6 +8,7 @@ import GameStart from './game/gameStart';
 import TeamSelection from './game/teamSelection';
 import Innings from './game/innings';
 import PlayerBowlerSelection from './game/playerBowlerSelection';
+import InningsStats from './game/inningsStats';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route index element={<GameHome />} />
             <Route path='innings/:inningsId' element={<Innings />}></Route>
             <Route path="current/:playerbowler/selection/:inningsId/:currentPlayerId" Component={PlayerBowlerSelection}></Route>
+            <Route path="innings-stats/:inningsId" element={<InningsStats />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

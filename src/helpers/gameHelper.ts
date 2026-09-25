@@ -22,6 +22,46 @@ export const inningsStats = (game: Game) => {
     }
 }
 
+export const inningsPlayersStats = (game: Game, inningsId: string) => {
+    const result: {[key: string]: number[]} = {};
+    let scores = [];
+    if(inningsId == "1") {
+        scores = game.innings1.score;
+    } else {
+        scores = game.innings2.score;
+    }
+
+    for(let score of scores) {
+        if(result[score.striker]) {
+            result[score.striker].push(score.runs);
+        } else {
+            result[score.striker] = [score.runs]
+        }
+    }
+
+    return result;
+};
+
+export const inningsBowlersStats = (game: Game, inningsId: string) => {
+    const result: {[key: string]: number[]} = {};
+    let scores = [];
+    if(inningsId == "1") {
+        scores = game.innings1.score;
+    } else {
+        scores = game.innings2.score;
+    }
+
+    for(let score of scores) {
+        if(result[score.bowler]) {
+            result[score.striker].push(score.runs);
+        } else {
+            result[score.bowler] = [score.runs]
+        }
+    }
+
+    return result;
+};
+
 export const bowlerStats = (game: Game, inningsId: string, bowler?: Player) => {
     let inningsScore;
     if(inningsId == "1") {
@@ -186,7 +226,10 @@ export const statsByBall = (game: Game, inningsId: string) => {
     var runs: string[] = [];
     const key = `innings${inningsId}`;
     const scores = inningsId == "1"? game.innings1.score : game.innings2.score;
-    for(let i=0; i< scores.length; i++) {
+    for(let i=0; i< scores.length; i++) {        
+        if((scores.length -1 - i) % 6 == 5) {
+            runs.push("|")
+        } 
         const score = scores[i];
         runs.push(String(score.runs));
     }
