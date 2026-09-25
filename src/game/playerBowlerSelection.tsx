@@ -76,7 +76,7 @@ const PlayerBowlerSelection = () => {
         <div className="Form">
             <div className="GameCard">
                 <div className="GameCard-header">
-                    <Back style={{width: "30px", height:"30px"}} onClick={() => {navigate(`/innings/${inningsId}`)}}></Back>
+                    <Back style={{width: "30px", height:"30px"}} onClick={() => {navigate(`/game/innings/${inningsId}`)}}></Back>
                     Select {playerbowler === 'player'? 'player ' + currentPlayerId : 'bowler'}
                     <div style={{width: "30px"}}></div>
                 </div>
