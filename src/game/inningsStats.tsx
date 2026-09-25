@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { IRootDispatch } from "../store/store";
 import { GameContextType, useGame } from "../context/gameContext";
-import { inningsPlayersStats, inningsStats } from "../helpers/gameHelper";
+import { inningsBowlersStats, inningsPlayersStats, inningsStats } from "../helpers/gameHelper";
 import { Teams } from "../enums/teams";
 
 const InningsStats = () => {
@@ -29,6 +29,7 @@ const InningsStats = () => {
         bowlingTeam = game.teamBattingFirst === Teams.One ? Teams.One : Teams.Two;
     }
     const playersScore = inningsPlayersStats(game, inningsId!);
+    const bowlersStats = inningsBowlersStats(game, inningsId!);
     return (
         <div className="Form">
             <div className="GameCard">
@@ -63,6 +64,23 @@ const InningsStats = () => {
                 <div className="GameCard-header">
                     <div>Bowling: T{bowlingTeam}</div>
                     <div>Extras: {inningsId === "1"? stats.innings1TotalExtras??0 : stats.innings2TotalExtras??0}</div>
+                </div>
+                <div className="BowlerCard">
+                    <div style={{marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
+                        <div style={{minWidth: '40%'}}></div>
+                        <div style={{minWidth: '20%', textAlign:"center"}}>Balls</div>
+                        <div style={{minWidth: '20%', textAlign:"center"}}>Runs</div>
+                        <div style={{minWidth: '20%', textAlign:"center"}}>Wickets</div>
+                    </div>
+                    {Object.keys(bowlersStats).map((bowler: any) => {
+                        const bowlerStats = bowlersStats[(`${bowler}`)];
+                        return (<div key={bowler} style={{marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
+                                <div style={{minWidth: '40%'}}>{bowler}</div>
+                                <div style={{minWidth: '20%', textAlign:"center"}}>{bowlerStats?.balls ?? 0}</div>
+                                <div style={{minWidth: '20%', textAlign:"center"}}>{bowlerStats?.runs ?? 0}</div>
+                                <div style={{minWidth: '20%', textAlign:"center"}}>{bowlerStats?.wickets ?? 0}</div>
+                            </div>)
+                    })}
                 </div>
             </div>
         </div>

@@ -1,8 +1,10 @@
 import { BallEventStatus } from "../enums/ballEventStatus";
 import { ExtrasType } from "../enums/extrasType";
+import { ScoreKeyEvent, ScoreKeyEventType } from "./scoreKeyEvent";
 
 export interface BallEvent {
     sequence: number;
+    scoreKeyEvent: ScoreKeyEventType;
     status: BallEventStatus;
     totalRuns: number;
     totalWickets: number;
@@ -26,6 +28,7 @@ export interface BallEvent {
 
 export const EmptyBallEvent: BallEvent = {
     sequence: 0,
+    scoreKeyEvent: ScoreKeyEvent.Dot,
     status: BallEventStatus.Delivery,
     totalRuns: 0,
     totalBalls: 0,

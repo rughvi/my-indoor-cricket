@@ -43,7 +43,7 @@ export const inningsPlayersStats = (game: Game, inningsId: string) => {
 };
 
 export const inningsBowlersStats = (game: Game, inningsId: string) => {
-    const result: {[key: string]: number[]} = {};
+    const bowlers: {[key: string]: BallEvent[]} = {};
     let scores = [];
     if(inningsId == "1") {
         scores = game.innings1.score;
@@ -52,13 +52,25 @@ export const inningsBowlersStats = (game: Game, inningsId: string) => {
     }
 
     for(let score of scores) {
-        if(result[score.bowler]) {
-            result[score.striker].push(score.runs);
+        if(bowlers[score.bowler]) {
+            bowlers[score.bowler].push(score);
         } else {
-            result[score.bowler] = [score.runs]
+            bowlers[score.bowler] = [score]
         }
     }
 
+    const result: {[key: string]: {balls: number, runs: number, wickets: number}} = {};
+    for(let key of Object.keys(bowlers)) {        
+        result[key] = {balls: 0, runs: 0, wickets: 0};
+        const ballEvents = bowlers[key];
+        result[key].balls = ballEvents.length;
+        for(let ballEvent of ballEvents) {
+            result[key].runs += ballEvent.scoreKeyEvent.value;
+            if(ballEvent.scoreKeyEvent.type in [ScoreKey.Bowled, ScoreKey.Catch, ScoreKey.Wicket]) {
+                result[key].wickets += 1;
+            }
+        }
+    }
     return result;
 };
 
@@ -147,14 +159,15 @@ export const getBallEventForScoreKey = (
         if(WidesAndNoballs.includes(scoreKeyEventType.type)) {
             ballEvent = {
                 ...lastBallEvent,
+                scoreKeyEvent: scoreKeyEventType,
                 sequence: lastBallEvent.sequence + 1,
-                runs: 0,
+                runs: scoreKeyEventType.value-3,
                 totalBalls: lastBallEvent.totalBalls + 1,
                 totalRuns: lastBallEvent.totalRuns + scoreKeyEventType.value,
-                totalExtras: lastBallEvent.totalExtras + scoreKeyEventType.value,            
+                totalExtras: lastBallEvent.totalExtras + 3,            
                 extras: {
                     type: scoreKeyEventType.value == ScoreKey.Wide? ExtrasType.Wide : ExtrasType.Noball,
-                    runs: scoreKeyEventType.value
+                    runs: 3
                 },
                 wicket: {},
                 striker: striker.name,
@@ -164,6 +177,7 @@ export const getBallEventForScoreKey = (
         } else if(BowledAndCatch.includes(scoreKeyEventType.type)) {
             ballEvent = {
                 ...lastBallEvent,
+                scoreKeyEvent: scoreKeyEventType,
                 sequence: lastBallEvent.sequence + 1,
                 runs: 0,
                 totalBalls: lastBallEvent.totalBalls + 1,
@@ -179,6 +193,7 @@ export const getBallEventForScoreKey = (
         }else {
             ballEvent = {
                 ...lastBallEvent,
+                scoreKeyEvent: scoreKeyEventType,
                 sequence: lastBallEvent.sequence + 1,
                 runs: scoreKeyEventType.value,
                 totalBalls: lastBallEvent.totalBalls + 1,
@@ -205,6 +220,7 @@ export const getBallEventForRunout = (
         let ballEvent: BallEvent;
         ballEvent = {
             ...lastBallEvent,
+            scoreKeyEvent: scoreKeyEventType,
             sequence: lastBallEvent.sequence + 1,
             runs: scoreKeyEventType.value,
             totalBalls: lastBallEvent.totalBalls + 1,
@@ -230,8 +246,8 @@ export const statsByBall = (game: Game, inningsId: string) => {
         if((scores.length -1 - i) % 6 == 5) {
             runs.push("|")
         } 
-        const score = scores[i];
-        runs.push(String(score.runs));
+        const score:BallEvent = scores[i];
+        runs.push(String(score.scoreKeyEvent.label));
     }
 
     return runs.join(" ");
