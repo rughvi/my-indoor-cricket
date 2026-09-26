@@ -67,7 +67,7 @@ const InningsStats = () => {
                     <div>Extras: {inningsId === "1"? stats.innings1TotalExtras??0 : stats.innings2TotalExtras??0}</div>
                 </div>
                 <div className="BowlerCard">
-                    <div style={{color: 'black', marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)', fontWeight:'bold'}}>
+                    <div style={{marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
                         <div style={{minWidth: '40%'}}></div>
                         <div style={{minWidth: '20%', textAlign:"center"}}>Balls</div>
                         <div style={{minWidth: '20%', textAlign:"center"}}>Runs</div>

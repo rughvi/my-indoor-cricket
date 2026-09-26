@@ -4,6 +4,8 @@
     border-radius: 20px;
     border-color: #7fffd4;
     color: black;
+    font-weight: bold;
+    font-size: medium;
 }
 
 .ButtonSelected {
@@ -13,6 +15,8 @@
     border-color: #7fffd4;
     background-color: #7fffd4;
     color: black;
+    font-weight: bold;
+    font-size: medium;
 }
 
 .PlayerButton {
@@ -20,6 +24,8 @@
     max-height: 50px;
     text-overflow: ellipsis;
     color: black;
+    font-weight: bold;
+    font-size: medium;
 }
 
 .ActionButton {
@@ -29,6 +35,8 @@
     border-color: #7fffd4;
     width: 75%;
     color: black;
+    font-weight: bold;
+    font-size: medium;
 }
 
 .CurrentPlayerButton {
@@ -38,5 +46,6 @@
     border-color: #7fffd4;
     width: 135px;
     color: black;
-
+    font-weight: bold;
+    font-size: medium;
 }

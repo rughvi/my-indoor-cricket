@@ -76,7 +76,6 @@ const GameHome = () => {
                         game.team1.map(p => (<div style={{padding: "5px 5px", backgroundColor: "#efefef", color:"black", borderRadius: "10px", marginRight: "2px"}}>{p.name}</div>)):
                         game.team2.map(p => (<div style={{padding: "5px 5px", backgroundColor: "#efefef", color:"black", borderRadius: "10px", marginRight: "2px"}}>{p.name}</div>))}
                 </div>
-                <br/>
                 <button className="Button" disabled={innings1Action === 'Finished'} onClick={() => {setInningsToEnd("1"); setAssertEndInnings(true);}}>End innings</button>
             </div>
             <div className="GameCard"  style={{borderStyle: "solid", borderRadius: "10px", borderWidth: "thin", padding: 10, backgroundColor: "whitesmoke"}}>
@@ -100,7 +99,6 @@ const GameHome = () => {
                         game.team2.map(p => (<div style={{padding: "5px 5px", backgroundColor: "#efefef", color:"black", borderRadius: "10px", marginRight: "2px"}}>{p.name}</div>)):
                         game.team1.map(p => (<div style={{padding: "5px 5px", backgroundColor: "#efefef", color:"black", borderRadius: "10px", marginRight: "2px"}}>{p.name}</div>))}
                 </div>
-                <br/>
                 <button className="Button" disabled={innings1Action !== 'Finished' || innings2Action === 'Finished'} onClick={() => {setInningsToEnd("2"); setAssertEndInnings(true)}}>End innings</button>
             </div>
             { assertEndInnings && 
