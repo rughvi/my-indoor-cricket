@@ -217,18 +217,28 @@ const Innings = () => {
                 <div className="GameCard" style={{justifyContent: "center", position: "absolute", top:"0px", left:"0px", width:"100%", height:"100%", opacity:"0.9", color:"black"}}>
                     <span style={{fontWeight:"bold"}}>Runout</span>
                     <br/>
+                    <div> Player out: </div>
                     <div className="GameCard-header" style={{justifyContent: "space-evenly"}}>
-                        <div style={{width:"40%"}}>Runout:</div>
-                        <div style={{textAlign:"center"}} onClick={() => setRunoutBatsman(currentPlayer1)}><span><input type="radio" checked={runoutBatsman?.name === currentPlayer1?.name}></input></span>{currentPlayer1?.name}</div>
-                        <div style={{textAlign:"center"}} onClick={() => setRunoutBatsman(currentPlayer2)}><span><input type="radio" checked={runoutBatsman?.name === currentPlayer2?.name}></input></span>{currentPlayer2?.name}</div>
+                        <button className={runoutBatsman?.name === currentPlayer1?.name? "ButtonSelected" : "Button"} style={{padding: '10px 40px'}}
+                                onClick={() => setRunoutBatsman(currentPlayer1)}>{currentPlayer1?.name}</button>
+                        <button className={runoutBatsman?.name === currentPlayer2?.name? "ButtonSelected" : "Button"} style={{padding: '10px 40px'}}
+                                onClick={() => setRunoutBatsman(currentPlayer2)}>{currentPlayer2?.name}</button>
+                    </div>
+                    <br/>
+                    <div> Add runs to player: </div>
+                    <div className="GameCard-header" style={{justifyContent: "space-evenly"}}>
+                        <button className={runoutScoreBatsman?.name === currentPlayer1?.name? "ButtonSelected" : "Button"} style={{padding: '10px 40px'}}
+                                onClick={() => setRunoutScoreBatsman(currentPlayer1)}>{currentPlayer1?.name}</button>
+                        <button className={runoutScoreBatsman?.name === currentPlayer2?.name? "ButtonSelected" : "Button"} style={{padding: '10px 40px'}}
+                                onClick={() => setRunoutScoreBatsman(currentPlayer2)}>{currentPlayer2?.name}</button>
                     </div>
                     <br/>
                     <div className="GameCard-header" style={{justifyContent: "space-evenly"}}>
-                        <div style={{width:"40%"}}>Add <span><input type="number" defaultValue={0} style={{width:"30px"}} value={runoutRuns} onChange={(event) => setRunoutRuns(Number(event.target.value))}></input></span> runs to:</div>
-                        <div style={{textAlign:"center"}} onClick={() => setRunoutScoreBatsman(currentPlayer1)}><span><input type="radio" checked={runoutScoreBatsman?.name === currentPlayer1?.name}></input></span>{currentPlayer1?.name}</div>
-                        <div style={{textAlign:"center"}} onClick={() => setRunoutScoreBatsman(currentPlayer2)}><span><input type="radio" checked={runoutScoreBatsman?.name === currentPlayer2?.name}></input></span>{currentPlayer2?.name}</div>
+                        <div className={runoutRuns === 0? "ScoreKeyboardElementSelected" :"ScoreKeyboardElement"} onClick={() => setRunoutRuns(0)}>0</div>
+                        <div className={runoutRuns === 1? "ScoreKeyboardElementSelected" :"ScoreKeyboardElement"} onClick={() => setRunoutRuns(1)}>1</div>
+                        <div className={runoutRuns === 2? "ScoreKeyboardElementSelected" :"ScoreKeyboardElement"} onClick={() => setRunoutRuns(2)}>2</div>
+                        <div className={runoutRuns === 3? "ScoreKeyboardElementSelected" :"ScoreKeyboardElement"} onClick={() => setRunoutRuns(3)}>3</div>
                     </div>
-                    <br/>
                     <div>
                         <button className="Button" onClick={() => setRecordingRunout(false)}>Cancel</button>
                         <button className="Button" onClick={() => onRunout()}>Continue</button>
