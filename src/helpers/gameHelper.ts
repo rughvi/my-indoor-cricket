@@ -247,7 +247,11 @@ export const statsByBall = (game: Game, inningsId: string) => {
             runs.push("|")
         } 
         const score:BallEvent = scores[i];
-        runs.push(String(score.scoreKeyEvent.shortLabel));
+        if(score.scoreKeyEvent.type == ScoreKey.Runout) {
+            runs.push(`${score.scoreKeyEvent.shortLabel}${score.runs}`)
+        } else {
+            runs.push(String(score.scoreKeyEvent.shortLabel));
+        }        
     }
 
     return runs.join(" ");
