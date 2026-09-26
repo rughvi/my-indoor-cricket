@@ -23,22 +23,29 @@ export const inningsStats = (game: Game) => {
 }
 
 export const inningsPlayersStats = (game: Game, inningsId: string) => {
-    const result: {[key: string]: number[]} = {};
+    const result: {[key: string]: {runs: number[], out?: boolean}} = {};
     let scores = [];
     if(inningsId == "1") {
         scores = game.innings1.score;
     } else {
         scores = game.innings2.score;
     }
-
+    console.log('scores', scores);
     for(let score of scores) {
         if(result[score.striker]) {
-            result[score.striker].push(score.runs);
+            result[score.striker].runs.push(score.runs);
         } else {
-            result[score.striker] = [score.runs]
+            result[score.striker] = {runs: [score.runs]}
+        }
+        if(BowledAndCatch.includes(score.scoreKeyEvent.type) || score.scoreKeyEvent.type === ScoreKey.Runout) {
+            if(result[score.wicket.player!]) {
+                result[score.wicket.player!].out = true;
+            } else {
+                result[score.wicket.player!] = {runs: [0], out: true}
+            }
         }
     }
-
+    console.log('innings player stats', result);
     return result;
 };
 

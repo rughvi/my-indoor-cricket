@@ -47,15 +47,16 @@ const InningsStats = () => {
                 <div className="BatsmenCard">
                     {
                         Object.keys(playersScore).map((playerName: string) => {
-                                const playerScore: number[] = playersScore[(`${playerName}`)];
-                                return (<div key={playerName} style={{marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
+                                const playerScore: {runs: number[], out?: boolean} = playersScore[(`${playerName}`)];
+                                return (<div key={playerName} style={{color:'black', marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)', fontWeight:'bold'}}>
                                             <div style={{minWidth: '70%'}}>
                                                 <span>
-                                                    <input readOnly type="radio" checked={playerScore !== undefined}></input>
+                                                    {/* <input disabled type="radio" checked={playerScore.out}></input> */}
+                                                    {playerScore.out? '(O)' :'(*)' }
                                                 </span>{playerName}
                                             </div>
                                             <div style={{minWidth: '30%'}}>
-                                                {playerScore?.reduce((a,c) => a+c) ?? 0} ({playerScore?.length ?? 0})
+                                                {playerScore?.runs?.reduce((a,c) => a+c) ?? 0} ({playerScore?.runs?.length ?? 0})
                                             </div>
                                         </div>)
                         })
@@ -66,7 +67,7 @@ const InningsStats = () => {
                     <div>Extras: {inningsId === "1"? stats.innings1TotalExtras??0 : stats.innings2TotalExtras??0}</div>
                 </div>
                 <div className="BowlerCard">
-                    <div style={{marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
+                    <div style={{color: 'black', marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)', fontWeight:'bold'}}>
                         <div style={{minWidth: '40%'}}></div>
                         <div style={{minWidth: '20%', textAlign:"center"}}>Balls</div>
                         <div style={{minWidth: '20%', textAlign:"center"}}>Runs</div>
@@ -74,7 +75,7 @@ const InningsStats = () => {
                     </div>
                     {Object.keys(bowlersStats).map((bowler: any) => {
                         const bowlerStats = bowlersStats[(`${bowler}`)];
-                        return (<div key={bowler} style={{marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
+                        return (<div key={bowler} style={{color: 'black', marginBottom:"5px", width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)', fontWeight:'bold'}}>
                                 <div style={{minWidth: '40%'}}>{bowler}</div>
                                 <div style={{minWidth: '20%', textAlign:"center"}}>{bowlerStats?.balls ?? 0}</div>
                                 <div style={{minWidth: '20%', textAlign:"center"}}>{bowlerStats?.runs ?? 0}</div>
