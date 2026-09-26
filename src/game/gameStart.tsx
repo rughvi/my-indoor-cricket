@@ -56,9 +56,9 @@ const GameStart = () => {
             <div className="GameCard">
                 <div> Batting: </div>
                 <div className="GameCard-header">                    
-                    <button className={teamBattingFirst === Teams.One? "ButtonSelected" : "Button"}
+                    <button className={teamBattingFirst === Teams.One? "ButtonSelected" : "Button"} style={{padding: '10px 40px'}}
                             onClick={() => dispatch(setTeamBattingFirst({teamBattingFirst: Teams.One}))}>Team 1</button>
-                    <button className={teamBattingFirst === Teams.Two? "ButtonSelected" : "Button"}
+                    <button className={teamBattingFirst === Teams.Two? "ButtonSelected" : "Button"} style={{padding: '10px 40px'}}
                             onClick={() => dispatch(setTeamBattingFirst({teamBattingFirst: Teams.Two}))}>Team 2</button>
                 </div>
             </div>

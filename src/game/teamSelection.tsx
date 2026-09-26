@@ -43,7 +43,7 @@ const TeamSelection= () => {
                 <ul className="TeamSelectionUL">
                     {selectablePlayers.map((player, index) => (
                         <li key={index}>
-                            <button className={`PlayerButton ${player.selected === true? 'ButtonSelected' : 'Button'}`} onClick={() => { selectPlayer(player, index) }}> {player.name} </button>
+                            <button className={`PlayerButton ${player.selected === true? 'ButtonSelected' : 'Button'}`} style={{padding: '10px 40px'}} onClick={() => { selectPlayer(player, index) }}> {player.name} </button>
                         </li>
                     ))}
                 </ul>                
