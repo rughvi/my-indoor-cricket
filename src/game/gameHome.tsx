@@ -66,7 +66,7 @@ const GameHome = () => {
                     <div style={{fontSize: "12px", width:"100px", textAlign: "end", textDecoration:"underline"}} onClick={() => navigate(`/game/innings-stats/1`)}>more</div>
                 </div>
                 <div className="GameCard-header"
-                    onClick={() => navigate('/game/runs-overs-wickets', {state: {runs: stats.innings1TotalRuns ?? 0, overs: `${Math.floor((stats.innings1TotalBalls ?? 0) / 6)}.${(stats.innings1TotalBalls ?? 0) % 6}` }})}>
+                    onClick={() => navigate('/game/runs-overs-wickets', {state: {runs: stats.innings1TotalRuns ?? 0, wickets: stats.innings1TotalWickets ?? 0, overs: `${Math.floor((stats.innings1TotalBalls ?? 0) / 6)}.${(stats.innings1TotalBalls ?? 0) % 6}` }})}>
                     <div style={{color: "black", fontWeight: 'bold', fontSize: 'calc(16px + 2vmin)'}}>{stats.innings1TotalRuns ?? 0} / {stats.innings1TotalWickets ?? 0}</div>
                     <div>Overs: {Math.floor((stats.innings1TotalBalls ?? 0) / 6)}.{(stats.innings1TotalBalls ?? 0) % 6}</div>
                 </div>
