@@ -9,20 +9,23 @@ import TeamSelection from './game/teamSelection';
 import Innings from './game/innings';
 import PlayerBowlerSelection from './game/playerBowlerSelection';
 import InningsStats from './game/inningsStats';
+import Games from './game/games';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" Component={Main}></Route>
-        <Route path="/game-start" Component={GameStart}></Route>
-        <Route path="/teamSelection/:teamIndex" Component={TeamSelection}></Route>
-        <Route path="/game" element={<GameRoot />}>
-            <Route index element={<GameHome />} />
-            <Route path='innings/:inningsId' element={<Innings />}></Route>
-            <Route path="current/:playerbowler/selection/:inningsId/:currentPlayerId" Component={PlayerBowlerSelection}></Route>
-            <Route path="innings-stats/:inningsId" element={<InningsStats />}></Route>
-        </Route>
+        <Route path="" element={<Games />}>
+          <Route path="/game-start" Component={GameStart}></Route>
+          <Route path="teamSelection/:teamIndex" Component={TeamSelection}></Route>
+          <Route path="/game" element={<GameRoot />}>              
+              <Route index element={<GameHome />} />
+              <Route path='innings/:inningsId' element={<Innings />}></Route>
+              <Route path="current/:playerbowler/selection/:inningsId/:currentPlayerId" Component={PlayerBowlerSelection}></Route>
+              <Route path="innings-stats/:inningsId" element={<InningsStats />}></Route>
+          </Route>
+        </Route>        
       </Routes>
     </BrowserRouter>
   );

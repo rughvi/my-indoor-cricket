@@ -8,11 +8,13 @@ import { assignPlayersToTeams } from "../store/gameSlice";
 import '../css/button.css';
 import '../css/ul.css';
 import '../css/teamSelection.css';
+import { useAllPlayers } from "../context/allPlayersContext";
 
 const TeamSelection= () => {
     const { teamIndex } = useParams();
-    const teamPlayers = useSelector<IRootState, Player[]>(state => state.player.allPlayers);
-    const [selectablePlayers, setSelectablePlayers] = useState<UIPlayer[]>(teamPlayers.map(tp => ({ name: tp.name, selected: false })));
+    // const teamPlayers = useSelector<IRootState, Player[]>(state => state.player.allPlayers);
+    const teamPlayers = useAllPlayers();
+    const [selectablePlayers, setSelectablePlayers] = useState<UIPlayer[]>(teamPlayers.allPlayers.map(tp => ({ name: tp.name, selected: false })));
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

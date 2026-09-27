@@ -7,6 +7,7 @@ import { Player } from "../types/player";
 import { Teams } from "../enums/teams";
 import { GameContextType, useGame } from "../context/gameContext";
 import { addPlayerToTeam, updateInningsCurrentBowler, updateInningsCurrentPlayer } from "../services/gameService";
+import { useAllPlayers } from "../context/allPlayersContext";
 
 
 const PlayerBowlerSelection = () => {
@@ -14,7 +15,8 @@ const PlayerBowlerSelection = () => {
     const location = useLocation();
     const [playerBowler, setPlayerBowler] = useState<string>('');
     const { gameId, game, loading, error: gameError }: GameContextType = useGame();
-    let teamPlayers: Player[] = location.state.playersToChooseFrom ?? [];
+    // let teamPlayers: Player[] = location.state.playersToChooseFrom ?? [];
+    let teamPlayers: Player[] = useAllPlayers().allPlayers;
     
     const dispatch = useDispatch<IRootDispatch>();
     const navigate = useNavigate();
