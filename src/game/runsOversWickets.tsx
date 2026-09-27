@@ -13,8 +13,8 @@ const RunsOversWickets = () => {
             <Back style={{width: "30px", height:"30px", fill: "white", color: "white"}} onClick={() => navigate('/game')}></Back>
             <div className="runs-display">
                 
-                <span className="runs-number">123/5</span>
-                <span className="runs-label">RUNS</span>
+                <span className="runs-number">{state.runs}</span>
+                <span className="runs-label">{state.overs}</span>
             </div>
         </div>
     );

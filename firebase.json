@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "my-indoor-cricket",
     "public": "build",
     "ignore": [
       "firebase.json",
