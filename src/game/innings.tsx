@@ -205,7 +205,8 @@ const Innings = () => {
                         </div>
                     </div>
                 </div>
-                <ScoreKeyboard onClick={onClickScoreKey} />
+                {((currentBowler?.name?.length ??0) > 0 && (currentBatsman?.name?.length ??0) > 0) && 
+                    <ScoreKeyboard onClick={onClickScoreKey} />}
                 {
                     error.length > 0 &&
                     <div className="error"> 
