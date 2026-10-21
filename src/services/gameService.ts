@@ -5,6 +5,7 @@ import { db } from '../firebase/firebase';
 import { EmptyGame, Game } from '../types/game';
 import { Player } from '../types/player';
 import { BallEvent } from '../types/ballEvent';
+import { ScoreKeyEvent } from '../types/scoreKeyEvent';
 
 const currentGameCollection = 'currentGame';
 const currentGameDocument = 'details';
@@ -132,6 +133,23 @@ export const addBowledBallEvent = createAsyncThunk('game/addBowledBallEvent', as
         await transaction.set(gameDocRef, { [key]: {[`currentPlayer${input.playerId}`]: null, score: score}}, {merge: true});
     });
 });
+
+export const undoLastBallEvent = createAsyncThunk('game/undoLastBallEvent', async(input: {gameId: string, inningsId: string}) => {
+    await runTransaction(db, async(transaction) => {
+        const gameDocRef = doc(db, 'games', input.gameId);
+        const gameDoc = await transaction.get(gameDocRef);
+        if (!gameDoc.exists()) {
+            throw "Document does not exist!";
+        }
+        const key = `innings${input.inningsId}`;
+        const gameData = gameDoc.data();
+        const innings = gameData[key];
+        const score = innings.score;
+        score[score.length - 1].scoreKeyEvent = ScoreKeyEvent.Undo;
+
+        await transaction.set(gameDocRef, { [key]: {score: score}}, {merge: true});
+    });
+})
 
 export const updateInningsCurrentPlayer = createAsyncThunk('game/updateGame', async (input: {gameId: string, inningsId: string, playerId: string, value: Player | null}) => {
     if(input.gameId) {

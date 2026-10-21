@@ -20,7 +20,8 @@ export enum ScoreKey {
     Wicket,
     Bowled,
     Catch,
-    Runout
+    Runout,
+    Undo
 }
 
 export const WidesAndNoballs = [

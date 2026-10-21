@@ -4,11 +4,11 @@ import { BallEvent, EmptyBallEvent } from "../types/ballEvent";
 import { BowlerStats } from "../types/bowlerStats";
 import { Game } from "../types/game";
 import { Player } from "../types/player";
-import { ScoreKeyEventType } from "../types/scoreKeyEvent";
+import { ScoreKeyEvent, ScoreKeyEventType } from "../types/scoreKeyEvent";
 
 export const inningsStats = (game: Game) => {
-    const innings1Score = game?.innings1?.score?.sort((a, b) => b.sequence - a.sequence);
-    const innings2Score = game?.innings2?.score?.sort((a, b) => b.sequence - a.sequence);
+    const innings1Score = game?.innings1?.score?.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo)?.sort((a, b) => b.sequence - a.sequence);
+    const innings2Score = game?.innings2?.score?.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo)?.sort((a, b) => b.sequence - a.sequence);
     return {
         innings1TotalRuns: innings1Score[0]?.totalRuns ?? 0,
         innings1TotalBalls: innings1Score[0]?.totalBalls ?? 0,
@@ -26,9 +26,9 @@ export const inningsPlayersStats = (game: Game, inningsId: string) => {
     const result: {[key: string]: {runs: number[], out?: boolean}} = {};
     let scores = [];
     if(inningsId == "1") {
-        scores = game.innings1.score;
+        scores = game.innings1.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo);
     } else {
-        scores = game.innings2.score;
+        scores = game.innings2.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo);
     }
     console.log('scores', scores);
     for(let score of scores) {
@@ -53,9 +53,9 @@ export const inningsBowlersStats = (game: Game, inningsId: string) => {
     const bowlers: {[key: string]: BallEvent[]} = {};
     let scores = [];
     if(inningsId == "1") {
-        scores = game.innings1.score;
+        scores = game.innings1.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo);
     } else {
-        scores = game.innings2.score;
+        scores = game.innings2.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo);
     }
 
     for(let score of scores) {
@@ -84,10 +84,10 @@ export const inningsBowlersStats = (game: Game, inningsId: string) => {
 export const bowlerStats = (game: Game, inningsId: string, bowler?: Player) => {
     let inningsScore;
     if(inningsId == "1") {
-        inningsScore = game.innings1.score
+        inningsScore = game.innings1.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo)
         
     } else {
-        inningsScore = game.innings2.score
+        inningsScore = game.innings2.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo)
     }
 
     const ballEvents = inningsScore.filter(s => s.bowler === bowler?.name);
@@ -116,10 +116,10 @@ export const currentPlayersStats = (game: Game, inningsId: string, player1?: Pla
     }
     let inningsScore;
     if(inningsId == "1") {
-        inningsScore = game.innings1.score
+        inningsScore = game.innings1.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo)
         
     } else {
-        inningsScore = game.innings2.score
+        inningsScore = game.innings2.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo)
     }
     const player1BallEvents = inningsScore.filter(s => s.striker === player1?.name).map(s =>s.runs);
     let player1Runs = 0;
@@ -143,9 +143,9 @@ export const currentPlayersStats = (game: Game, inningsId: string, player1?: Pla
 export const getLastBallEvent = (game: Game, inningsId: string): BallEvent => {
     let score: BallEvent[] = [];
     if(inningsId == "1") {
-        score = game.innings1.score;
+        score = game.innings1.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo);
     } else {
-        score = game.innings2.score;
+        score = game.innings2.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo);
     }
     if(score.length == 0) {
         return EmptyBallEvent;
@@ -248,7 +248,9 @@ export const getBallEventForRunout = (
 export const statsByBall = (game: Game, inningsId: string) => {
     var runs: string[] = [];
     const key = `innings${inningsId}`;
-    const scores = inningsId == "1"? game.innings1.score : game.innings2.score;
+    const scores = inningsId == "1"? 
+            game.innings1.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo) : 
+            game.innings2.score.filter(s => s.scoreKeyEvent.type !== ScoreKey.Undo);
     for(let i=0; i< scores.length; i++) {        
         if((scores.length -1 - i) % 6 == 5) {
             runs.push("|")

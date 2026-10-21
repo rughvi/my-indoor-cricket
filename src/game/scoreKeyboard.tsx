@@ -35,17 +35,19 @@ const ScoreKeyboard = (props: {onClick: (keyPressed: ScoreKeyEventType) => void 
             </div>
             <br />
             <div className="ScoreKeyboardRow">
+                <div className="ScoreKeyboardElement" onClick={() => onClickScoreKey(ScoreKeyEvent.Dot)}>0</div>
                 <div className="ScoreKeyboardElement" onClick={() => onClickScoreKey(ScoreKeyEvent.Wide)}>WD</div>
                 <div className="ScoreKeyboardElement" onClick={() => onClickScoreKey(ScoreKeyEvent.WidePlusOne)}>WD+1</div>
                 <div className="ScoreKeyboardElement" onClick={() => onClickScoreKey(ScoreKeyEvent.WidePlusTwo)}>WD+2</div>
                 <div className="ScoreKeyboardElement" onClick={() => onClickScoreKey(ScoreKeyEvent.WidePlusThree)}>WD+3</div>
             </div>
             <br />
-            <div className="ScoreKeyboardRow">
-                <div className="ScoreKeyboardElement" onClick={() => onClickScoreKey(ScoreKeyEvent.Dot)}>0</div>
+            <div className="ScoreKeyboardRow">                
                 <div className="ScoreKeyboardElement" style={{ backgroundColor: "#c31212" }} onClick={() => onClickScoreKey(ScoreKeyEvent.Bowled)}>Bowled</div>
                 <div className="ScoreKeyboardElement" style={{ backgroundColor: "#c31212" }} onClick={() => onClickScoreKey(ScoreKeyEvent.Catch)}>Catch</div>
                 <div className="ScoreKeyboardElement" style={{ backgroundColor: "#c31212" }} onClick={() => onClickScoreKey(ScoreKeyEvent.Runout)}>Runout</div>
+                <div className="ScoreKeyboardElement"></div>
+                <div className="ScoreKeyboardElement" style={{ backgroundColor: "#c31212" }} onClick={() => onClickScoreKey(ScoreKeyEvent.Undo)}>Undo</div>
             </div>
         </div>
     );

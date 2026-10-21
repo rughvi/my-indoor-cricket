@@ -133,5 +133,11 @@ export const ScoreKeyEvent = {
         value: 0,
         label: "RUNOUT",
         shortLabel: "Ro"
+    },
+    Undo: {
+        type: ScoreKey.Undo,
+        value: 0,
+        label: "Undo",
+        shortLabel: ""
     }
 }

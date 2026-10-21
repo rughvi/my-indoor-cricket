@@ -11,7 +11,7 @@ import { Player } from "../types/player";
 import ScoreKeyboard from "./scoreKeyboard";
 import { BowledAndCatch, ScoreKey } from "../enums/scoreKey";
 import { ScoreKeyEvent, ScoreKeyEventType } from "../types/scoreKeyEvent";
-import { addBallEvent, addBowledBallEvent, updateInningsCurrentPlayer } from "../services/gameService";
+import { addBallEvent, addBowledBallEvent, undoLastBallEvent, updateInningsCurrentPlayer } from "../services/gameService";
 import { BallEvent } from "../types/ballEvent";
 import { IRootDispatch } from "../store/store";
 import { useDispatch } from "react-redux";
@@ -71,6 +71,10 @@ const Innings = () => {
 
     const onClickScoreKey = async (scoreKeyEventType: ScoreKeyEventType) => {
         setError('');
+        if(scoreKeyEventType.type === ScoreKey.Undo) {
+            await dispatch(undoLastBallEvent({gameId, inningsId: inningsId!})).unwrap();
+            return;
+        };
         if(scoreKeyEventType.type === ScoreKey.Runout) {
             setRecordingRunout(true);
             return;
