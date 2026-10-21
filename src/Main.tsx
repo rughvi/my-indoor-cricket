@@ -6,10 +6,12 @@ import firebaseApp from './firebase/firebase';
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCurrentGame } from "./services/gameService";
+import { createNewGame, fetchCurrentGame } from "./services/gameService";
 import { IRootDispatch, IRootState } from "./store/store";
 import { Status } from "./enums/status";
 import { CurrentGame } from "./types/currentGame";
+import { EmptyGame, Game } from "./types/game";
+import { Teams } from "./enums/teams";
 
 
 const Main = () => {
@@ -37,6 +39,13 @@ const Main = () => {
 
     const logout = () => {
         signOut(auth);
+    };
+
+    const startGame = async () => {
+        const game: Game = {...EmptyGame, team1: [], team2: [], teamBattingFirst: Teams.One};
+        await dispatch(createNewGame(game)).unwrap();
+        await dispatch(fetchCurrentGame('')).unwrap();
+        navigate('/game');
     };
 
     if (loading) {
@@ -79,7 +88,7 @@ const Main = () => {
             return (
                 <div className="App">
                     <header className="App-header">
-                        <button className="ActionButton" onClick={() => {navigate('/game-start')}}> Play a game </button>
+                        <button className="ActionButton" onClick={() => startGame()}> Play a game </button>
                     </header>
                 </div>
             );

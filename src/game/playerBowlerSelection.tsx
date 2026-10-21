@@ -15,7 +15,6 @@ const PlayerBowlerSelection = () => {
     const location = useLocation();
     const [playerBowler, setPlayerBowler] = useState<string>('');
     const { gameId, game, loading, error: gameError }: GameContextType = useGame();
-    // let teamPlayers: Player[] = location.state.playersToChooseFrom ?? [];
     let teamPlayers: Player[] = useAllPlayers().allPlayers;
     
     const dispatch = useDispatch<IRootDispatch>();
@@ -87,7 +86,7 @@ const PlayerBowlerSelection = () => {
                 <ul className="TeamSelectionUL">
                     {teamPlayers.map((player, index) => (
                         <li key={index}>
-                            <button className="Button" style={{padding: '10px 40px'}} onClick={() => { onPlayerSelectionDone(player) }}> {player.name} </button>
+                            <button className="Button" style={{padding: '10px 40px'}} onClick={() => { onPlayerAdd(player) }}> {player.name} </button>
                         </li>
                     ))}
                 </ul>
