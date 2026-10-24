@@ -136,6 +136,7 @@ const Innings = () => {
                         <div className="GameCard-header">
                             <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>Overs: <span style={{fontWeight: "bold", color:"black"}}> {Math.floor((stats.innings1TotalBalls ?? 0) / 6)}.{(stats.innings1TotalBalls ?? 0) % 6}</span>
                             </div>
+                            <div style={{fontSize: "12px", width:"100px", textAlign: "center", textDecoration:"underline", fontWeight: 'bold'}} onClick={() => navigate(`/game/innings-stats/${inningsId}`)}>more</div>
                             <div>Extras: {stats.innings1TotalExtras ?? 0}</div>
                         </div>
                         <br/>
@@ -151,6 +152,7 @@ const Innings = () => {
                         <div className="GameCard-header">
                             <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>Overs: <span style={{fontWeight: "bold", color:"black"}}> {Math.floor((stats.innings2TotalBalls ?? 0) / 6)}.{(stats.innings2TotalBalls ?? 0) % 6}</span>
                             </div>
+                            <div style={{fontSize: "12px", width:"100px", textAlign: "center", textDecoration:"underline", fontWeight: 'bold'}} onClick={() => navigate(`/game/innings-stats/${inningsId}`)}>more</div>
                             <div>Extras: {stats.innings2TotalExtras ?? 0}</div>
                         </div>
                         <br/>
@@ -166,9 +168,8 @@ const Innings = () => {
                 
                 <br/>
                 <div className="BowlerCard" style={{borderStyle: "solid", borderRadius: "10px", borderWidth: "thin", padding: 10, margin: 5, backgroundColor: "whitesmoke"}}>
-                    <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: "20px"}}>
+                    <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                         <div style={{color: "black", fontWeight: "bold", fontSize: "14px"}}>Bowler:</div>
-                        <div style={{fontSize: "12px", width:"100px", textAlign: "end", textDecoration:"underline", fontWeight: 'bold'}} onClick={() => navigate(`/game/innings-stats/${inningsId}`)}>more</div>
                     </div>                    
                     <div className="GameCard-header">
                         <div style={{width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
@@ -176,32 +177,31 @@ const Innings = () => {
                             <div>Over: {currentBowlerStats?.overs}<span>|</span></div>
                             <div>Runs: {currentBowlerStats?.runs}<span>|</span></div>
                             <div>Wkts: {currentBowlerStats?.wickets} </div>
-                            <Edit style={{height: "25px", width: "25px"}} onClick={() => {choosePlayer('bowler', -1)}}/>
+                            <Edit style={{height: "25px", width: "25px", margin: "10px"}} onClick={() => {choosePlayer('bowler', -1)}}/>
                         </div>
                     </div>
                 </div>
                 <div className="BatsmenCard" style={{borderStyle: "solid", borderRadius: "10px", borderWidth: "thin", padding: 10, margin: 5, backgroundColor: "whitesmoke"}}>
-                    <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: "20px"}}>
+                    <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                         <div style={{color: "black", fontWeight: "bold", fontSize: "14px"}}>Batsmen:</div>
-                        <div style={{fontSize: "12px", width:"100px", textAlign: "end", textDecoration:"underline", fontWeight: 'bold'}} onClick={() => navigate(`/game/innings-stats/${inningsId}`)}>more</div>
                     </div>                    
                     <div className="GameCard-header">
                         <div style={{width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
-                            <button style={{width: '50%'}} onClick={() => setCurrentBatsman(currentPlayer1)}
+                            <button style={{width: '50%', margin: "5px"}} onClick={() => setCurrentBatsman(currentPlayer1)}
                                 className={currentBatsman?.name === currentPlayer1?.name? "ButtonSelected" : "Button"}>
                                 {currentPlayer1?.name} {currentPlayersScore.currentPlayer1Scores.runs} ({currentPlayersScore.currentPlayer1Scores.balls})
                             </button>
-                            <Edit style={{height: "25px", width: "25px"}} onClick={() => {choosePlayer('player', 1)}}/>
+                            <Edit style={{height: "25px", width: "25px", margin: "10px"}} onClick={() => {choosePlayer('player', 1)}}/>
                         </div>
                     </div>
-                    <br />
+                    {/* <br /> */}
                     <div className="GameCard-header">
                         <div style={{width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
-                            <button style={{width: '50%'}} onClick={() => setCurrentBatsman(currentPlayer2)}
+                            <button style={{width: '50%', margin: "5px"}} onClick={() => setCurrentBatsman(currentPlayer2)}
                                 className={currentBatsman?.name === currentPlayer2?.name? "ButtonSelected" : "Button"}>
                                 {currentPlayer2?.name} {currentPlayersScore.currentPlayer2Scores.runs} ({currentPlayersScore.currentPlayer2Scores.balls})
                             </button>
-                            <Edit style={{height: "25px", width: "25px"}} onClick={() => {choosePlayer('player', 2)}}/>
+                            <Edit style={{height: "25px", width: "25px", margin: "10px"}} onClick={() => {choosePlayer('player', 2)}}/>
                         </div>
                     </div>
                 </div>

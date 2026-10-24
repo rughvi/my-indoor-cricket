@@ -105,9 +105,9 @@ const GameHome = () => {
             { assertEndInnings && 
                 <div className="GameCard" style={{justifyContent: "center", position: "absolute", top:"0px", left:"0px", width:"100%", height:"100%", opacity:"0.9", color:"black"}}>
                     <div style={{opacity:"1"}}>Are you sure you want to end innings?</div>
-                    <div>
-                        <button className="Button" onClick={() => setAssertEndInnings(false)}>No</button>
-                        <button className="Button" onClick={() => endInningsFn(inningsToEnd)}>Yes</button>
+                    <div style={{display: "flex", flexDirection:"row"}}>
+                        <button className="Button" style={{padding: "10px 50px"}} onClick={() => setAssertEndInnings(false)}>No</button>
+                        <button className="Button" style={{padding: "10px 50px"}} onClick={() => endInningsFn(inningsToEnd)}>Yes</button>
                     </div>
                 </div>
             }
