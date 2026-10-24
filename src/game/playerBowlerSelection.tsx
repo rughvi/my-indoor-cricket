@@ -86,7 +86,7 @@ const PlayerBowlerSelection = () => {
                 <ul className="TeamSelectionUL">
                     {teamPlayers.map((player, index) => (
                         <li key={index}>
-                            <button className="Button" style={{padding: '10px 40px'}} onClick={() => { onPlayerAdd(player) }}> {player.name} </button>
+                            <button className="Button" style={{padding: '10px 40px', width:'150px'}} onClick={() => { onPlayerAdd(player) }}> {player.name} </button>
                         </li>
                     ))}
                 </ul>

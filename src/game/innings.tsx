@@ -187,24 +187,20 @@ const Innings = () => {
                     </div>                    
                     <div className="GameCard-header">
                         <div style={{width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
-                            <div style={{minWidth: '70%'}}  onClick={() => setCurrentBatsman(currentPlayer1)}>
-                                <span>
-                                    <input type="radio" checked={currentBatsman?.name === currentPlayer1?.name}>
-                                    </input>
-                                </span>{currentPlayer1?.name} {currentPlayersScore.currentPlayer1Scores.runs} ({currentPlayersScore.currentPlayer1Scores.balls})
-                            </div>
+                            <button style={{width: '50%'}} onClick={() => setCurrentBatsman(currentPlayer1)}
+                                className={currentBatsman?.name === currentPlayer1?.name? "ButtonSelected" : "Button"}>
+                                {currentPlayer1?.name} {currentPlayersScore.currentPlayer1Scores.runs} ({currentPlayersScore.currentPlayer1Scores.balls})
+                            </button>
                             <Edit style={{height: "25px", width: "25px"}} onClick={() => {choosePlayer('player', 1)}}/>
                         </div>
                     </div>
                     <br />
                     <div className="GameCard-header">
                         <div style={{width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: 'calc(6px + 2vmin)'}}>
-                            <div style={{minWidth: '70%'}}  onClick={() => setCurrentBatsman(currentPlayer2)}>
-                                <span>
-                                    <input type="radio" checked={currentBatsman?.name === currentPlayer2?.name}>
-                                    </input>
-                                </span>{currentPlayer2?.name} {currentPlayersScore.currentPlayer2Scores.runs} ({currentPlayersScore.currentPlayer2Scores.balls})
-                            </div>
+                            <button style={{width: '50%'}} onClick={() => setCurrentBatsman(currentPlayer2)}
+                                className={currentBatsman?.name === currentPlayer2?.name? "ButtonSelected" : "Button"}>
+                                {currentPlayer2?.name} {currentPlayersScore.currentPlayer2Scores.runs} ({currentPlayersScore.currentPlayer2Scores.balls})
+                            </button>
                             <Edit style={{height: "25px", width: "25px"}} onClick={() => {choosePlayer('player', 2)}}/>
                         </div>
                     </div>

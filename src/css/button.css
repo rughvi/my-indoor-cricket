@@ -1,15 +1,17 @@
 .Button {
-    padding: 10px 50px;
+    padding: 10px 10px;
     margin: 10px;
     border-radius: 20px;
     border-color: #7fffd4;
     color: black;
     font-weight: bold;
     font-size: medium;
+    white-space: nowrap;
+    width: 50%;
 }
 
 .ButtonSelected {
-    padding: 10px 50px;
+    padding: 10px 10px;
     margin: 10px;
     border-radius: 20px;
     border-color: #7fffd4;
@@ -17,6 +19,8 @@
     color: black;
     font-weight: bold;
     font-size: medium;
+    white-space: nowrap;
+    width: 50%;
 }
 
 .PlayerButton {
@@ -26,6 +30,8 @@
     color: black;
     font-weight: bold;
     font-size: medium;
+    white-space: nowrap;
+    width: 50%;
 }
 
 .ActionButton {
@@ -37,6 +43,7 @@
     color: black;
     font-weight: bold;
     font-size: medium;
+    white-space: nowrap;
 }
 
 .CurrentPlayerButton {
@@ -48,4 +55,5 @@
     color: black;
     font-weight: bold;
     font-size: medium;
+    white-space: nowrap;
 }
