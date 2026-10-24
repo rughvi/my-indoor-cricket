@@ -6,7 +6,6 @@ import { IRootDispatch } from "../store/store";
 import { GameContextType, useGame } from "../context/gameContext";
 import { inningsBowlersStats, inningsPlayersStats, inningsStats } from "../helpers/gameHelper";
 import { Teams } from "../enums/teams";
-import { InningsStatus } from "../enums/inningsStatus";
 
 const InningsStats = () => {
     const { inningsId } = useParams();

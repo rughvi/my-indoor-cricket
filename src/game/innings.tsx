@@ -240,7 +240,7 @@ const Innings = () => {
                         <div className={runoutRuns === 2? "ScoreKeyboardElementSelected" :"ScoreKeyboardElement"} onClick={() => setRunoutRuns(2)}>2</div>
                         <div className={runoutRuns === 3? "ScoreKeyboardElementSelected" :"ScoreKeyboardElement"} onClick={() => setRunoutRuns(3)}>3</div>
                     </div>
-                    <div>
+                    <div className="GameCard-header" style={{margin: "20px"}}>
                         <button className="Button" onClick={() => setRecordingRunout(false)}>Cancel</button>
                         <button className="Button" onClick={() => onRunout()}>Continue</button>
                     </div>
