@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { ReactComponent as Back } from '../back.svg';
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { IRootDispatch } from "../store/store";
 import { GameContextType, useGame } from "../context/gameContext";
 import { inningsBowlersStats, inningsPlayersStats, inningsStats } from "../helpers/gameHelper";
 import { Teams } from "../enums/teams";
+import { InningsStatus } from "../enums/inningsStatus";
 
 const InningsStats = () => {
     const { inningsId } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    const { fromUrl } = location.state || {};
     const dispatch = useDispatch<IRootDispatch>();
     const { gameId, game, loading, error: gameError }: GameContextType = useGame();
     const stats = inningsStats(game);
@@ -30,11 +33,15 @@ const InningsStats = () => {
     }
     const playersScore = inningsPlayersStats(game, inningsId!);
     const bowlersStats = inningsBowlersStats(game, inningsId!);
+    const onBack = () => {
+        navigate(fromUrl);
+    }
+
     return (
         <div className="Form">
             <div className="GameCard">
                 <div className="GameCard-header">
-                    <Back style={{width: "30px", height:"30px"}} onClick={() => {navigate(`/game/innings/${inningsId}`)}}></Back>
+                    <Back style={{width: "30px", height:"30px"}} onClick={() => onBack()}></Back>
                     Innings: {inningsId}
                     <div style={{width: "30px"}}></div>
                 </div>

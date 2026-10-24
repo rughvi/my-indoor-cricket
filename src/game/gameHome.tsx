@@ -63,7 +63,7 @@ const GameHome = () => {
                 <br/>
                 <div className="GameCard-header">
                     <div style={{fontSize:"14px"}}><span style={{fontWeight: "bold", color:"black"}}>{game.teamBattingFirst === Teams.One? 'Team 1' : 'Team 2'}</span> Batting</div>
-                    <div style={{fontSize: "12px", width:"100px", textAlign: "end", textDecoration:"underline"}} onClick={() => navigate(`/game/innings-stats/1`)}>more</div>
+                    <div style={{fontSize: "12px", width:"100px", textAlign: "end", textDecoration:"underline"}} onClick={() => navigate(`/game/innings-stats/1`, {state: {fromUrl: '/game'}})}>more</div>
                 </div>
                 <div className="GameCard-header"
                     onClick={() => navigate('/game/runs-overs-wickets', {state: {runs: stats.innings1TotalRuns ?? 0, wickets: stats.innings1TotalWickets ?? 0, overs: `${Math.floor((stats.innings1TotalBalls ?? 0) / 6)}.${(stats.innings1TotalBalls ?? 0) % 6}` }})}>
@@ -87,7 +87,7 @@ const GameHome = () => {
                 <br/>
                 <div className="GameCard-header">
                     <div style={{fontSize:"14px"}}><span style={{fontWeight: "bold", color:"black"}}>{game.teamBattingFirst === Teams.One? 'Team 2' : 'Team 1'}</span> Batting</div>
-                    <div style={{fontSize: "12px", width:"100px", textAlign: "end", textDecoration:"underline"}} onClick={() => navigate(`/game/innings-stats/2`)}>more</div>
+                    <div style={{fontSize: "12px", width:"100px", textAlign: "end", textDecoration:"underline"}} onClick={() => navigate(`/game/innings-stats/2`, {state: {fromUrl: '/game'}})}>more</div>
                 </div>
                 <div className="GameCard-header"
                     onClick={() => navigate('/game/runs-overs-wickets', {state: {runs: stats.innings2TotalRuns ?? 0, wickets: stats.innings2TotalWickets ?? 0, overs: `${Math.floor((stats.innings2TotalBalls ?? 0) / 6)}.${(stats.innings2TotalBalls ?? 0) % 6}` }})}>

@@ -136,7 +136,7 @@ const Innings = () => {
                         <div className="GameCard-header">
                             <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>Overs: <span style={{fontWeight: "bold", color:"black"}}> {Math.floor((stats.innings1TotalBalls ?? 0) / 6)}.{(stats.innings1TotalBalls ?? 0) % 6}</span>
                             </div>
-                            <div style={{fontSize: "12px", width:"100px", textAlign: "center", textDecoration:"underline", fontWeight: 'bold'}} onClick={() => navigate(`/game/innings-stats/${inningsId}`)}>more</div>
+                            <div style={{fontSize: "12px", width:"100px", textAlign: "center", textDecoration:"underline", fontWeight: 'bold'}} onClick={() => navigate(`/game/innings-stats/${inningsId}`, {state: {fromUrl: '/game/innings/1'}})}>more</div>
                             <div>Extras: {stats.innings1TotalExtras ?? 0}</div>
                         </div>
                         <br/>
@@ -152,7 +152,7 @@ const Innings = () => {
                         <div className="GameCard-header">
                             <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>Overs: <span style={{fontWeight: "bold", color:"black"}}> {Math.floor((stats.innings2TotalBalls ?? 0) / 6)}.{(stats.innings2TotalBalls ?? 0) % 6}</span>
                             </div>
-                            <div style={{fontSize: "12px", width:"100px", textAlign: "center", textDecoration:"underline", fontWeight: 'bold'}} onClick={() => navigate(`/game/innings-stats/${inningsId}`)}>more</div>
+                            <div style={{fontSize: "12px", width:"100px", textAlign: "center", textDecoration:"underline", fontWeight: 'bold'}} onClick={() => navigate(`/game/innings-stats/${inningsId}`, {state: {fromUrl: '/game/innings/2'}})}>more</div>
                             <div>Extras: {stats.innings2TotalExtras ?? 0}</div>
                         </div>
                         <br/>
